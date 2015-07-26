@@ -1,4 +1,4 @@
-<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:if="ant:if" name="muhkuh_tester_cli" default="install">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:if="ant:if" name="muhkuh_base_cli" default="install">
 	<target name="install" description="install all components">
 		<echo>org.muhkuh.tools.muhkuh_tester_cli</echo>
 		
