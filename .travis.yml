@@ -19,7 +19,7 @@ env:
     - secure: Ws7DNn9uzmtsg0XraRgly/UCpkgluTBsa3pWL365xZefKqMCcfCkqCfX+CSzzCRBkeqzbCevJkhQo59iqHibR8VocfAJG2LZLI88DmLDvCk2Db6Mhlc/JPOuwWErWLhKw1pce3u3S8YT53p8xFmHwrpeKw5rhmCz0DMa7DdK9QsWcQOuso901bEV9QVZhOLMbif4UmqGl+299uPYOSIRyF5QzPoPGWinr+TGVvd1OU8gezIfY9BdwL8Kk6EsdqnwKX/YN3mdhck34TXCjZAMKp9Qgk4GRxGI5g7StRPm6ta26L+0I0M889Y5o5m8QwN9PbDjwoTQVHWGTv+a7uIYPL2h0MutomGLnIobgtIozogqfVgMSh4WUvqsvZWLcSj7wQoocYV0oaYAQdackbtVBh4EB3eOjhsO11p7LH7NZpdd9P5P3enwzzjZHfERqASOF+U2R48XT+h0SqFaYRWRJtiPVeJgD8w05fr2nsIyg6gA2jiqIHgLArvLkbKiDiWudJCajVYSf7JCc8+eXIoVBI8VCvLAWelUKBMJBgs9nzEPNic7NHmgdjwXG8vHwUVaBXWX8DQ/rhrTp8eNNwpdOU8Ims1214lwM7mQU9CHPevxR8u0zwLxbsKMxyE3UqnZ2PXXqAWPfbjAU8i+w0WoXNerpdp2ABuUweAoZWjew/E=
 
 
-before_install:
+install:
   - pip install -q requests
 
 
@@ -30,7 +30,7 @@ script:
 
 # Deploy the artifacts to Bintray after success.
 after_success:
-  - python ivy/deploy.py build/artifacts/artifacts_lua_plugin_romloader.xml
+  - python ivy/deploy.py targets/artifacts.xml
 
 
 # Deploy the artifacts to GitHub.
