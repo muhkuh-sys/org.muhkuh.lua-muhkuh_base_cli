@@ -48,9 +48,11 @@ tArcList0.AddFiles('',
 
 tArcList0.AddFiles('lua/',
 	'lua/muhkuh.lua',
-	'lua/muhkuh_cli_init.lua',
 	'lua/select_plugin_cli.lua',
 	'lua/tester_cli.lua')
+
+tArcList0.AddFiles('system/',
+	'lua/muhkuh_cli_init.lua')
 
 
 aArtifactGroupReverse = strArtifactGroup.split('.')

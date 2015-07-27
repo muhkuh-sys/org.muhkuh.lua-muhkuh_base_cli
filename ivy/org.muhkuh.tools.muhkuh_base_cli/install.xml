@@ -7,6 +7,6 @@
 		</copy>
 		
 		<!-- Copy the initialisation file to the base folder of the installation. -->
-		<copy file="muhkuh_cli_init.lua" todir="${install.base}" />
+		<copy file="system/muhkuh_cli_init.lua" todir="${install.base}" />
 	</target>
 </project>
