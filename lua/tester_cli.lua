@@ -71,6 +71,13 @@ function stdCall(tParentWindow, tPlugin, ulAddress, ulParameter)
 end
 
 
+
+function setCommonPlugin(tPlugin)
+	m_commonPlugin = tPlugin
+end
+
+
+
 function getCommonPlugin(strPattern)
 	local tPlugin
 
