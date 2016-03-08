@@ -1,0 +1,26 @@
+machine:
+  python:
+    version: 2.7.10
+
+
+dependencies:
+  cache_directories:
+    - "~/.mbs" # The Muhkuh build system.
+    - "~/.ant" # The ANT modules.
+
+
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init --recursive
+
+
+general:
+  artifacts:
+    - targets/ivy/ivy.xml
+    - targets/ivy/muhkuh_base_cli.zip
+
+
+test:
+  override:
+    - python mbs/mbs
