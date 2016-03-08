@@ -49,7 +49,9 @@ tArcList0.AddFiles('',
 tArcList0.AddFiles('lua/',
 	'lua/muhkuh.lua',
 	'lua/select_plugin_cli.lua',
-	'lua/tester_cli.lua')
+	'lua/serialnr.lua',
+	'lua/tester_cli.lua',
+	'lua/utils.lua')
 
 tArcList0.AddFiles('system/',
 	'lua/muhkuh_cli_init.lua')
