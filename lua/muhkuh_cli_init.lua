@@ -7,6 +7,7 @@ package.cpath = package.cpath .. ";lua_plugins/?.so;lua_plugins/?.dll"
 package.path = package.path .. ";lua/?.lua;lua/?/init.lua"
 
 -- Load the common romloader plugins.
+require("romloader_eth")
 require("romloader_usb")
 require("romloader_uart")
 
