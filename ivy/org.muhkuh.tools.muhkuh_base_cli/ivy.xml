@@ -18,6 +18,6 @@
 		<dependency org="org.muhkuh.lua" name="lua51"           rev="5.1.5"/>
 		<dependency org="org.luajit"     name="bitop"           rev="1.0.2"/>
 		<dependency org="org.muhkuh.lua" name="lua51-mhash"     rev="0.9.4"/>
-		<dependency org="org.muhkuh.lua" name="lua51-romloader" rev="2.3.0"/>
+		<dependency org="org.muhkuh.lua" name="lua51-romloader" rev="2.3.1"/>
 	</dependencies>
 </ivy-module>
