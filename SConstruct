@@ -36,40 +36,76 @@ import os.path
 # Build the artifacts.
 #
 
-aArtifactServer = ('nexus@netx01', 'muhkuh', 'muhkuh_snapshots')
-strArtifactGroup = 'tools.muhkuh.org'
-strArtifactId = 'muhkuh_base_cli'
+strGroup = 'org.muhkuh.tools'
+strModule = 'muhkuh_base_cli'
+
+# Split the group by dots.
+aGroup = strGroup.split('.')
+# Build the path for all artifacts.
+strModulePath = 'targets/jonchki/repository/%s/%s/%s' % ('/'.join(aGroup), strModule, PROJECT_VERSION)
 
 
-tArcList0 = env_default.ArchiveList('zip')
+# Set the name of the LUA5.1 artifact.
+strArtifact51 = 'lua5.1-muhkuh_base_cli'
 
-tArcList0.AddFiles('',
-	'ivy/org.muhkuh.tools.muhkuh_base_cli/install.xml')
+tArcList51 = env_default.ArchiveList('zip')
 
-tArcList0.AddFiles('lua/',
-	'lua/muhkuh.lua',
-	'lua/select_plugin_cli.lua',
-	'lua/serialnr.lua',
-	'lua/tester_cli.lua',
-	'lua/utils.lua')
+tArcList51.AddFiles('',
+                   'installer/jonchki/lua5.1/install.lua')
 
-tArcList0.AddFiles('system/',
-	'lua/muhkuh_cli_init.lua')
+tArcList51.AddFiles('lua/',
+                   'lua/muhkuh.lua',
+                   'lua/select_plugin_cli.lua',
+                   'lua/serialnr.lua',
+                   'lua/tester_cli.lua',
+                   'lua/utils.lua')
+
+tArcList51.AddFiles('system/',
+                   'lua/muhkuh_cli_init.lua')
+
+tArtifact51Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact51, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList51)
+tArtifact51Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/%s.xml' % strModule)
 
 
-aArtifactGroupReverse = strArtifactGroup.split('.')
-aArtifactGroupReverse.reverse()
+# Set the name of the LUA5.2 artifact.
+strArtifact52 = 'lua5.2-muhkuh_base_cli'
 
-strArtifactPath = 'targets/ivy/repository/%s/%s/%s' % ('/'.join(aArtifactGroupReverse),strArtifactId,PROJECT_VERSION)
-tArc = env_default.Archive(os.path.join(strArtifactPath, '%s-%s.zip' % (strArtifactId,PROJECT_VERSION)), None, ARCHIVE_CONTENTS=tArcList0)
-tIvy = env_default.Version(os.path.join(strArtifactPath, 'ivy-%s.xml' % PROJECT_VERSION), 'ivy/%s.%s/ivy.xml' % ('.'.join(aArtifactGroupReverse),strArtifactId))
+tArcList52 = env_default.ArchiveList('zip')
 
-env_default.AddArtifact(tArc, aArtifactServer, strArtifactGroup, strArtifactId, PROJECT_VERSION, 'zip')
-env_default.AddArtifact(tIvy, aArtifactServer, strArtifactGroup, strArtifactId, PROJECT_VERSION, 'ivy')
+tArcList52.AddFiles('',
+                   'installer/jonchki/lua5.2/install.lua')
 
-tArtifacts = env_default.Artifact('targets/artifacts.xml', None)
+tArcList52.AddFiles('lua/',
+                   'lua/muhkuh.lua',
+                   'lua/select_plugin_cli.lua',
+                   'lua/serialnr.lua',
+                   'lua/tester_cli.lua',
+                   'lua/utils.lua')
 
-# Copy the artifacts to a fixed filename to allow a deploy to github.
-Command('targets/ivy/%s.zip' % strArtifactId,  tArc,  Copy("$TARGET", "$SOURCE"))
-Command('targets/ivy/ivy.xml', tIvy,  Copy("$TARGET", "$SOURCE"))
+tArcList52.AddFiles('system/',
+                   'lua/muhkuh_cli_init.lua')
 
+tArtifact52Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact52, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList52)
+tArtifact52Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact52, PROJECT_VERSION)), 'installer/jonchki/lua5.2/%s.xml' % strModule)
+
+
+# Set the name of the LUA5.3 artifact.
+strArtifact53 = 'lua5.3-muhkuh_base_cli'
+
+tArcList53 = env_default.ArchiveList('zip')
+
+tArcList53.AddFiles('',
+                   'installer/jonchki/lua5.3/install.lua')
+
+tArcList53.AddFiles('lua/',
+                   'lua/muhkuh.lua',
+                   'lua/select_plugin_cli.lua',
+                   'lua/serialnr.lua',
+                   'lua/tester_cli.lua',
+                   'lua/utils.lua')
+
+tArcList53.AddFiles('system/',
+                   'lua/muhkuh_cli_init.lua')
+
+tArtifact53Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact53, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList53)
+tArtifact53Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact53, PROJECT_VERSION)), 'installer/jonchki/lua5.3/%s.xml' % strModule)
