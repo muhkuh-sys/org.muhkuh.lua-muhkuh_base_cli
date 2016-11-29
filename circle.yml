@@ -6,7 +6,6 @@ machine:
 dependencies:
   cache_directories:
     - "~/.mbs" # The Muhkuh build system.
-    - "~/.ant" # The ANT modules.
 
 
 checkout:

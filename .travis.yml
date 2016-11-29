@@ -11,37 +11,8 @@ sudo: false
 cache:
   directories:
     - $HOME/.mbs
-    - $HOME/.ant/lib
-
-
-env:
-  global:
-    - secure: Ws7DNn9uzmtsg0XraRgly/UCpkgluTBsa3pWL365xZefKqMCcfCkqCfX+CSzzCRBkeqzbCevJkhQo59iqHibR8VocfAJG2LZLI88DmLDvCk2Db6Mhlc/JPOuwWErWLhKw1pce3u3S8YT53p8xFmHwrpeKw5rhmCz0DMa7DdK9QsWcQOuso901bEV9QVZhOLMbif4UmqGl+299uPYOSIRyF5QzPoPGWinr+TGVvd1OU8gezIfY9BdwL8Kk6EsdqnwKX/YN3mdhck34TXCjZAMKp9Qgk4GRxGI5g7StRPm6ta26L+0I0M889Y5o5m8QwN9PbDjwoTQVHWGTv+a7uIYPL2h0MutomGLnIobgtIozogqfVgMSh4WUvqsvZWLcSj7wQoocYV0oaYAQdackbtVBh4EB3eOjhsO11p7LH7NZpdd9P5P3enwzzjZHfERqASOF+U2R48XT+h0SqFaYRWRJtiPVeJgD8w05fr2nsIyg6gA2jiqIHgLArvLkbKiDiWudJCajVYSf7JCc8+eXIoVBI8VCvLAWelUKBMJBgs9nzEPNic7NHmgdjwXG8vHwUVaBXWX8DQ/rhrTp8eNNwpdOU8Ims1214lwM7mQU9CHPevxR8u0zwLxbsKMxyE3UqnZ2PXXqAWPfbjAU8i+w0WoXNerpdp2ABuUweAoZWjew/E=
-
-
-install:
-  - pip install -q requests
 
 
 # This is the command to build the whole project and pack the results in a distributable form.
 script:
   - python mbs/mbs
-
-
-# Deploy the artifacts to Bintray after success.
-after_success:
-  - python ivy/deploy.py targets/artifacts.xml
-
-
-# Deploy the artifacts to GitHub.
-deploy:
-  provider: releases
-  api_key:
-    secure: m6SM5tl8rdHsBbyba/RoeYlplSbRyBiLiVxZb6wgqUrfbe10YQt6iIcSRgptWBAhjT+EYj/TLliI1MQjJs0nKjazyobycEqeJPxarXKX3+LGS0pWXVbn7WK3CYI7YmchY+arjuGLDxcEj7229f4Wp/+0IFkLFNvfPZhwIWZi4fGKe5VRV936qxCF8zwRhxhMOexL/Z1ROUwLsSoWflZAmFmI2mx6t1/gutHVgnvnyuOtaKHZLbNqRLkdAWAPW4KuPcwokuGBGjJdQ+qxGa5knjJ1jy1S/9gRwsxGWBewUXB9TxYqWyTC8J9ndhaOXhaKvDnrXjyykp44RlmJjsFF40stknyZqdjt9JMKMRk/Jd3xneZuZuS1T7XT+Dnv+aikAN4A+mT1TpsLQONguC/PMzOysqYxune46rOKPc/imjQT2WJwboy0X9iv1p4kKKnZxLDjvbVkPZeEimWKYre0CUe/MH0T/1kVMMJlcf5Qtj3/L+Ia1GVN7EITrCDGE9EPm3r0w0dAGWcy+sklGxB2V3XLLKWvJcyp7ydD0XT+9N0VHROcWT53OBmukckPd6i+9rw5Xy9zOc0LokHapm1lbQVXtrgoxgz48DmRu5pm9nI6fnV8X2oELqfgD6fkIz2Ja3+bA0N+iXFR/FEyVASzmYk8shube0aYAJecGBVZWR8=
-  file:
-    - targets/ivy/ivy.xml
-    - targets/ivy/muhkuh_base_cli.zip
-  skip_cleanup: true
-  on:
-    repo: muhkuh-sys/org.muhkuh.tools-muhkuh_base_cli
-    tags: true
