@@ -65,6 +65,7 @@ tArcList51.AddFiles('system/',
 
 tArtifact51Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact51, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList51)
 tArtifact51Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/%s.xml' % strModule)
+tArtifact51Pom = env_default.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/pom.xml')
 
 
 # Set the name of the LUA5.2 artifact.
@@ -87,6 +88,7 @@ tArcList52.AddFiles('system/',
 
 tArtifact52Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact52, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList52)
 tArtifact52Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact52, PROJECT_VERSION)), 'installer/jonchki/lua5.2/%s.xml' % strModule)
+tArtifact52Pom = env_default.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact52, PROJECT_VERSION)), 'installer/jonchki/lua5.2/pom.xml')
 
 
 # Set the name of the LUA5.3 artifact.
@@ -109,3 +111,4 @@ tArcList53.AddFiles('system/',
 
 tArtifact53Zip = env_default.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact53, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList53)
 tArtifact53Xml = env_default.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact53, PROJECT_VERSION)), 'installer/jonchki/lua5.3/%s.xml' % strModule)
+tArtifact53Pom = env_default.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact53, PROJECT_VERSION)), 'installer/jonchki/lua5.3/pom.xml')
