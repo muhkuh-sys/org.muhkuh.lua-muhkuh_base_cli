@@ -4,6 +4,6 @@ local t = ...
 t:install('lua', '${install_lua_path}')
 
 -- Copy the initialisation file to the base folder of the installation.
-t:install('system/muhkuh_cli_init.lua', '${install_base}')
+t:install('system/muhkuh_cli_init.lua', '${install_base}/')
 
 return true
