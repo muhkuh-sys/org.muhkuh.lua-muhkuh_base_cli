@@ -2,7 +2,7 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.muhkuh.tools</groupId>
-	<artifactId>muhkuh_base_cli</artifactId>
+	<artifactId>lua5.3-muhkuh_base_cli</artifactId>
 	<version>${PROJECT_VERSION}</version>
 	<packaging>zip</packaging>
 </project>
