@@ -8,9 +8,9 @@ CONTAINER=c0
 # Get the project directory.
 PRJDIR=`pwd`
 
-# Make sure that the "build" folder exists.
+# Make sure that the "targets" folder exists.
 # NOTE: do not remove it, maybe there are already components.
-mkdir -p ${PRJDIR}/build
+mkdir -p ${PRJDIR}/targets
 
 # Start the container and mount the project folder.
 lxc init mbs-ubuntu-1604-x64 ${CONTAINER}
