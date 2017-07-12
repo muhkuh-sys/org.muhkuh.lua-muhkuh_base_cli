@@ -218,6 +218,9 @@ function mbin_set_parameter(tPlugin, aAttr, aParameter)
 			end
 			tPlugin:write_data32(aAttr.ulParameterStartAddress+0x0c+((iIdx-1)*4), ulValue)
 		end
+	elseif type(aParameter)=='string' then
+		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
+		stdWrite(tParentWindow, tPlugin, aAttr.ulParameterStartAddress+0x0c, aParameter)
 	else
 		-- One single parameter.
 		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aParameter)
