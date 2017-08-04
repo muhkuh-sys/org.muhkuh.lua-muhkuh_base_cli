@@ -138,12 +138,14 @@ function mbin_open(strFilename, tPlugin)
 			strAsic = "4000"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX100 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX500 then
 			strAsic = "500"
+		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX90_MPW then
+			strAsic = "90"
+		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56B then
+			strAsic = "56"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX50 then
 			strAsic = "50"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX10 then
 			strAsic = "10"
-		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56B then
-			strAsic = "56"
 		else
 			error("Unknown chiptyp!")
 		end
