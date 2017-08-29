@@ -10,6 +10,7 @@ package.path = package.path .. ";lua/?.lua;lua/?/init.lua"
 require("romloader_eth")
 require("romloader_usb")
 require("romloader_uart")
+require("romloader_jtag")
 
 -- Load the common modules for a CLI environment.
 require("muhkuh")
