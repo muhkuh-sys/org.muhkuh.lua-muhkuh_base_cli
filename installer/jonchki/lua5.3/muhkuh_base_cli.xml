@@ -14,8 +14,8 @@
 	</info>
 	<dependencies>
 		<dependency group="org.lua"        module="lua"       artifact="lua"              version="5.3"/>
-		<dependency group="org.luajit"     module="bitop"     artifact="lua5.3-bitop"     version="1.0.2.2"/>
-		<dependency group="org.muhkuh.lua" module="mhash"     artifact="lua5.3-mhash"     version="0.9.9.9.2"/>
-		<dependency group="org.muhkuh.lua" module="romloader" artifact="lua5.3-romloader" version="2.3.6"/>
+		<dependency group="org.luajit"     module="bitop"     artifact="lua5.3-bitop"     version="1.0.2"/>
+		<dependency group="org.muhkuh.lua" module="mhash"     artifact="lua5.3-mhash"     version="0.9.9.9"/>
+		<dependency group="org.muhkuh.lua" module="romloader" artifact="lua5.3-romloader" version="2.3"/>
 	</dependencies>
 </jonchki-artifact>
