@@ -60,9 +60,6 @@ tArcList51.AddFiles('lua/',
                    'lua/tester_cli.lua',
                    'lua/utils.lua')
 
-tArcList51.AddFiles('system/',
-                   'lua/muhkuh_cli_init.lua')
-
 tArtifact51 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact51, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList51)
 tArtifact51Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact51[0].get_path(), tArtifact51[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
 tConfiguration51 = atEnv.DEFAULT.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/%s.xml' % strModule)
@@ -85,9 +82,6 @@ tArcList52.AddFiles('lua/',
                    'lua/tester_cli.lua',
                    'lua/utils.lua')
 
-tArcList52.AddFiles('system/',
-                   'lua/muhkuh_cli_init.lua')
-
 tArtifact52 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact52, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList52)
 tArtifact52Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact52[0].get_path(), tArtifact52[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
 tConfiguration52 = atEnv.DEFAULT.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact52, PROJECT_VERSION)), 'installer/jonchki/lua5.2/%s.xml' % strModule)
@@ -109,9 +103,6 @@ tArcList53.AddFiles('lua/',
                    'lua/serialnr.lua',
                    'lua/tester_cli.lua',
                    'lua/utils.lua')
-
-tArcList53.AddFiles('system/',
-                   'lua/muhkuh_cli_init.lua')
 
 tArtifact53 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact53, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList53)
 tArtifact53Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact53[0].get_path(), tArtifact53[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
