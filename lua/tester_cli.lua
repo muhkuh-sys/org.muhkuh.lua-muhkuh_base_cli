@@ -139,6 +139,8 @@ function mbin_open(strFilename, tPlugin)
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX100 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX500 then
 			strAsic = "500"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX90_MPW then
+			strAsic = "90_mpw"
+		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX90 then
 			strAsic = "90"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56B then
 			strAsic = "56"
