@@ -2,7 +2,7 @@
 <jonchki-artifact version="1.0">
 	<info group="org.muhkuh.tools"
 	      module="muhkuh_base_cli"
-	      artifact="lua5.3-muhkuh_base_cli"
+	      artifact="lua5.4-muhkuh_base_cli"
 	      version="${PROJECT_VERSION}"
 	      vcs-id="${PROJECT_VERSION_VCS_LONG}"
 	      extension="zip">
@@ -13,9 +13,9 @@
 		</description>
 	</info>
 	<dependencies>
-		<dependency group="org.lua"        module="lua"       artifact="lua"              version="5.3"/>
-		<dependency group="org.luajit"     module="bitop"     artifact="lua5.3-bitop"     version="1.0.2"/>
-		<dependency group="org.muhkuh.lua" module="mhash"     artifact="lua5.3-mhash"     version="0.9.9.9"/>
-		<dependency group="org.muhkuh.lua" module="romloader" artifact="lua5.3-romloader" version="2.4"/>
+		<dependency group="org.lua"        module="lua"       artifact="lua"              version="5.4"/>
+		<dependency group="org.luajit"     module="bitop"     artifact="lua5.4-bitop"     version="1.0.2"/>
+		<dependency group="org.muhkuh.lua" module="mhash"     artifact="lua5.4-mhash"     version="0.9.9.9"/>
+		<dependency group="org.muhkuh.lua" module="romloader" artifact="lua5.4-romloader" version="2.4"/>
 	</dependencies>
 </jonchki-artifact>
