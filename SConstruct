@@ -54,11 +54,9 @@ tArcList51.AddFiles('',
                    'installer/jonchki/lua5.1/install.lua')
 
 tArcList51.AddFiles('lua/',
-                   'lua/muhkuh.lua',
                    'lua/select_plugin_cli.lua',
-                   'lua/serialnr.lua',
                    'lua/tester_cli.lua',
-                   'lua/utils.lua')
+                   'lua/tester_webgui.lua')
 
 tArtifact51 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact51, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList51)
 tArtifact51Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact51[0].get_path(), tArtifact51[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
