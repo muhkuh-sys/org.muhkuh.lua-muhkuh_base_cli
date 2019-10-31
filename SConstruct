@@ -54,7 +54,16 @@ tArcList51.AddFiles('',
                    'installer/jonchki/lua5.1/install.lua')
 
 tArcList51.AddFiles('lua/',
+                   'lua/parameter_instances.lua',
+                   'lua/parameter.lua',
+                   'lua/parameter_multi_choice.lua',
+                   'lua/parameter_single_choice.lua',
+                   'lua/parameter_uint16.lua',
+                   'lua/parameter_uint32.lua',
+                   'lua/parameter_uint8.lua',
                    'lua/select_plugin_cli.lua',
+                   'lua/test_class.lua',
+                   'lua/test_description.lua',
                    'lua/tester_cli.lua',
                    'lua/tester_webgui.lua')
 
@@ -74,7 +83,16 @@ tArcList54.AddFiles('',
                    'installer/jonchki/lua5.4/install.lua')
 
 tArcList54.AddFiles('lua/',
+                   'lua/parameter_instances.lua',
+                   'lua/parameter.lua',
+                   'lua/parameter_multi_choice.lua',
+                   'lua/parameter_single_choice.lua',
+                   'lua/parameter_uint16.lua',
+                   'lua/parameter_uint32.lua',
+                   'lua/parameter_uint8.lua',
                    'lua/select_plugin_cli.lua',
+                   'lua/test_class.lua',
+                   'lua/test_description.lua',
                    'lua/tester_cli.lua',
                    'lua/tester_webgui.lua')
 
