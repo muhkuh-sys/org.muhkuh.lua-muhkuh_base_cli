@@ -5,6 +5,7 @@ local Tester = class()
 function Tester:_init()
   self.pl = require'pl.import_into'()
   self.json = require 'dkjson'
+  self.zmq = require 'lzmq'
 
   self.tCommonPlugin = nil
   self.strCommonPluginName = nil
@@ -376,6 +377,22 @@ function Tester:getInteractionResponse()
       self.tLog.debug('Ignoring invalid response: %s', strMessage)
     end
   until strResponse~=nil
+
+  return strResponse
+end
+
+
+
+function Tester:getInteractionResponseNonBlocking()
+  local strResponse
+
+  local strMessage = self.tSocket:recv(self.zmq.DONTWAIT)
+  if strMessage~=nil then
+    strResponse = string.match(strMessage, '^RSP(.*)')
+    if strResponse==nil then
+      self.tLog.debug('Ignoring invalid response: %s', tostring(strMessage))
+    end
+  end
 
   return strResponse
 end
