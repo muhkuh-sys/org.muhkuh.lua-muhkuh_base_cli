@@ -16,6 +16,8 @@
 		<dependency group="org.lua"        module="lua"       artifact="lua"              version="5.4"/>
 		<dependency group="org.luajit"     module="bitop"     artifact="lua5.4-bitop"     version="1.0.2"/>
 		<dependency group="org.muhkuh.lua" module="mhash"     artifact="lua5.4-mhash"     version="0.9.9.9"/>
-		<dependency group="org.muhkuh.lua" module="romloader" artifact="lua5.4-romloader" version="2.4"/>
+		<dependency group="org.muhkuh.lua" module="romloader_pt" artifact="lua5.4-romloader" version="2.4"/>
+		<dependency group="com.github.stevedonovan" module="penlight" artifact="penlight" version="1.6"/>
+		<dependency group="com.github.moteus" module="lua-log" artifact="lua-log" version="0.1.6"/>
 	</dependencies>
 </jonchki-artifact>
