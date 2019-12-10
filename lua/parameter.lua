@@ -51,6 +51,7 @@ function Parameter:_init(strOwner, strName, strHelp, tLogWriter, strLogLevel)
   self.fHasDefaultValue = false
   self.tDefaultValue = nil
   self.fRequired = false
+  self.fIsOutput = false
   self.fnConstraint = nil
 
   self.fHasValue = false
@@ -80,6 +81,20 @@ function Parameter:required(fRequired)
   end
 
   self.fRequired = fRequired
+
+  return self
+end
+
+
+function Parameter:output(fOutput)
+  -- Convert the input to a boolean.
+  if fOutput then
+    fOutput = true
+  else
+    fOutput = false
+  end
+
+  self.fIsOutput = fOutput
 
   return self
 end
@@ -224,6 +239,18 @@ function Parameter:connect(tParameter)
 end
 
 
+function Parameter:isConnected()
+  -- A parameter is connected if one or more connections exist.
+  local fIsConnected = false
+  for _, _ in pairs(self.atConnections) do
+    fIsConnected = true
+    break
+  end
+
+  return fIsConnected
+end
+
+
 function Parameter:validate()
   -- Be optimistic.
   local fIsValid = true
@@ -281,6 +308,7 @@ function Parameter:dump()
   tLog.debug('tDefaultValue: %s', tostring(self.tDefaultValue))
   tLog.debug('type of tDefaultValue: %s', type(self.tDefaultValue))
   tLog.debug('fRequired: %s', tostring(self.fRequired))
+  tLog.debug('fIsOutput: %s', tostring(self.fIsOutput))
   tLog.debug('fnConstraint: %s', tostring(self.fnConstraint))
   tLog.debug('tValue: %s', tostring(self.tValue))
   tLog.debug('type of tValue: %s', type(self.tValue))
