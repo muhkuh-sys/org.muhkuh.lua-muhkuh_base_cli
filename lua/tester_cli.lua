@@ -14,7 +14,7 @@ end
 
 
 
-function Tester.hexdump(strData, uiBytesPerRow)
+function Tester:hexdump(strData, uiBytesPerRow)
   uiBytesPerRow = uiBytesPerRow or 16
 
   local aDump
@@ -38,7 +38,7 @@ end
 
 
 function Tester.callback_progress(a,b)
-  print(string.format("%d%% (%d/%d)", a*100/b, a, b))
+  print(string.format("%d%% (%d/%d)", math.floor(a*100/b), a, b))
   return true
 end
 
@@ -169,7 +169,7 @@ function Tester:getCommonPlugin(strInterfacePattern)
       end
 
       local iSelectedInterfaceIndex = nil
-      if table.maxn(aDetectedInterfaces)==0 then
+      if #aDetectedInterfaces==0 then
         tLog.error('No interface found.')
       else
         -- Search all detected interfaces for the pattern.
@@ -302,12 +302,13 @@ end
 
 
 function Tester:mbin_debug(aAttr, tLogLevel)
-  print(string.format('file "%s":', aAttr.strFilename))
-  print(string.format('  header version: %d.%d', aAttr.ulHeaderVersionMaj, aAttr.ulHeaderVersionMin))
-  print(string.format('  load address:   0x%08x', aAttr.ulLoadAddress))
-  print(string.format('  exec address:   0x%08x', aAttr.ulExecAddress))
-  print(string.format('  parameter:      0x%08x - 0x%08x', aAttr.ulParameterStartAddress, aAttr.ulParameterEndAddress))
-  print(string.format('  binary:         %d bytes', aAttr.strBinary:len()))
+  local tLog = self.tLog
+  tLog.debug('file "%s":', aAttr.strFilename)
+  tLog.debug('  header version: %d.%d', aAttr.ulHeaderVersionMaj, aAttr.ulHeaderVersionMin)
+  tLog.debug('  load address:   0x%08x', aAttr.ulLoadAddress)
+  tLog.debug('  exec address:   0x%08x', aAttr.ulExecAddress)
+  tLog.debug('  parameter:      0x%08x - 0x%08x', aAttr.ulParameterStartAddress, aAttr.ulParameterEndAddress)
+  tLog.debug('  binary:         %d bytes', aAttr.strBinary:len())
 end
 
 

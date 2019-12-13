@@ -5,6 +5,12 @@ function TestClass:_init(strTestName, uiTestCase, tLogWriter, strLogLevel)
   self.P = require 'parameter_instances'(strTestName, tLogWriter, strLogLevel)
   self.pl = require'pl.import_into'()
 
+  -- Get the LUA version number in the form major * 100 + minor .
+  local strMaj, strMin = string.match(_VERSION, '^Lua (%d+)%.(%d+)$')
+  if strMaj~=nil then
+    self.LUA_VER_NUM = tonumber(strMaj) * 100 + tonumber(strMin)
+  end
+
   -- Create a new log target for this test.
   local tLogWriterTestcase = require 'log.writer.prefix'.new(
     string.format('[Test %02d] ', uiTestCase),
@@ -40,7 +46,6 @@ function TestClass:__parameter(atParameter)
   end
   self.atParameter = atParameterLookUp
 end
-
 
 
 return TestClass

@@ -59,7 +59,7 @@ function Parameter_MultiChoice:constraint(tConstraint)
       end
     end
 
-    if table.maxn(atChoices)==0 then
+    if #atChoices==0 then
       self.tLog.error('The constraint string contains no values.')
       error('invalid constraint')
     end
@@ -88,7 +88,7 @@ function Parameter_MultiChoice:__validate(tValue)
       table.insert(astrValues, strValue)
     end
   end
-  if table.maxn(astrValues)==0 then
+  if #astrValues==0 then
     fIsValid = false
     strMessage = 'No value selected.'
   elseif self.atConstraint==nil then

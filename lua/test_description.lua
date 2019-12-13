@@ -238,7 +238,7 @@ function TestDescription:parse(strTestsFile)
       local atTestCases = self.atTestCases
 
       -- Get the number of available test cases.
-      self.uiNumberOfTests = table.maxn(atTestCases)
+      self.uiNumberOfTests = #atTestCases
 
       -- Get a lookup table with the test names.
       local astrTestNames = {}
@@ -371,7 +371,6 @@ function TestDescription:getTestCaseActionPost(uiTestCase)
 
   return tResult
 end
-
 
 
 return TestDescription
