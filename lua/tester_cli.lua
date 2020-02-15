@@ -72,7 +72,7 @@ end
 
 
 
-function Tester:getCommonPlugin(strInterfacePattern)
+function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
   local tLog = self.tLog
 
   -- Is a plugin open?
@@ -109,7 +109,7 @@ function Tester:getCommonPlugin(strInterfacePattern)
         aDetectedInterfaces = {}
         for i,v in ipairs(__MUHKUH_PLUGINS) do
           tLog.debug('Detecting interfaces with plugin %s', v:GetID())
-          local iDetected = v:DetectInterfaces(aDetectedInterfaces)
+          local iDetected = v:DetectInterfaces(aDetectedInterfaces, atPluginOptions)
           tLog.debug('Found %d interfaces with plugin %s', iDetected, v:GetID())
         end
         tLog.debug('Found a total of %d interfaces with %d plugins', #aDetectedInterfaces, #__MUHKUH_PLUGINS)
@@ -164,7 +164,7 @@ function Tester:getCommonPlugin(strInterfacePattern)
         tLog.error('No plugins registered!')
       else
         for _, tPlugin in ipairs(atPlugins) do
-          tPlugin:DetectInterfaces(aDetectedInterfaces)
+          tPlugin:DetectInterfaces(aDetectedInterfaces, atPluginOptions)
         end
       end
 
