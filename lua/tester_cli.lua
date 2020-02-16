@@ -74,6 +74,7 @@ end
 
 function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
   local tLog = self.tLog
+  atPluginOptions = atPluginOptions or {}
 
   -- Is a plugin open?
   local tPlugin = self.tCommonPlugin
