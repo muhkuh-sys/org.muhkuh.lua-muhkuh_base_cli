@@ -311,6 +311,31 @@ end
 
 
 
+function TestDescription:getTestCaseIndex(strTestCaseName)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(strTestCaseName)
+  if strType=='string' then
+    for uiIndex, strName in ipairs(self.astrTestNames) do
+      if strName==strTestCaseName then
+        tResult = uiIndex
+        break
+      end
+    end
+    if tResult==nil then
+      tLog.error('No test with the name "%s" found.', strTestCaseName)
+    end
+  else
+    tLog.error('The test case must be a string, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
 function TestDescription:getTestCaseParameters(uiTestCase)
   local tLog = self.tLog
   local tResult
