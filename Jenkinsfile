@@ -1,38 +1,32 @@
-pipeline {
-    agent any
+node {
+    def ARTIFACTS_PATH = 'targets/jonchki/repository/org/muhkuh/tools/muhkuh_base_cli/*/'
 
-    stages {
-        stage('Clean before build') {
-            steps {
-                sh 'rm -rf .[^.] .??* *'
-            }
-        }
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/muhkuh-sys/org.muhkuh.tools-muhkuh_base_cli.git']]])
-            }
-        }
-        stage('Build Artefacts') {
-            steps {
-                sh './.lxc_build_artefacts.sh'
-            }
-            post {
-                failure {
-                    /* Stop and remove the running container. Do not fail on this commands. */
-                    sh 'lxc stop c0 || true'
-                    sh 'lxc delete c0 || true'
-                }
-            }
-        }
-        stage('Save Artifacts') {
-            steps {
-                archive 'targets/*.xml,targets/*.zip,targets/*.hash,targets/*.pom'
-            }
-        }
-        stage('Clean after build') {
-            steps {
-                sh 'rm -rf .[^.] .??* *'
-            }
-        }
+    docker.image("mbs_ubuntu_2004_x86_64").inside('-u root') {
+        /* Clean before the build. */
+        sh 'rm -rf .[^.] .??* *'
+
+        checkout([$class: 'GitSCM',
+            branches: [[name: '*/master']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'SubmoduleOption',
+                    disableSubmodules: false,
+                    recursiveSubmodules: true,
+                    reference: '',
+                    trackingSubmodules: false
+                ]
+            ],
+            submoduleCfg: [],
+            userRemoteConfigs: [[url: 'http://scm.netx01.hilscher.local/git/com.hilscher.muhkuh/board_tests/Wago_WiSli_Vorverguss']]
+        ])
+
+        /* Build the project. */
+        sh "python3 mbs/mbs"
+
+        /* Archive all artifacts. */
+        archiveArtifacts artifacts: "${ARTIFACTS_PATH}/*.pom,${ARTIFACTS_PATH}/*.xml,${ARTIFACTS_PATH}/*.zip,${ARTIFACTS_PATH}/*.hash"
+
+        /* Clean up after the build. */
+        sh 'rm -rf .[^.] .??* *'
     }
 }
