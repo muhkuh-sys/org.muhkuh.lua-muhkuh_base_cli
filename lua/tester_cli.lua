@@ -137,7 +137,7 @@ function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
           --  1) the user requested a rescan ("r")
           --  2) the user canceled the selection ("c")
           --  3) the input is a number and it is an index to an entry in aDetectedInterfaces
-        end until (strInterface=='r') or (strInterface=='c') or ((iInterfaceIdx~=nil) and (iInterfaceIdx>0) and (iInterfaceIdx<=table.maxn(aDetectedInterfaces)))
+        end until (strInterface=='r') or (strInterface=='c') or ((iInterfaceIdx~=nil) and (iInterfaceIdx>0) and (iInterfaceIdx<=#aDetectedInterfaces))
       -- Scan again if the user requested it.
       end until strInterface~='r'
 

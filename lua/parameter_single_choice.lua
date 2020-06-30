@@ -43,7 +43,7 @@ function Parameter_SingleChoice:constraint(tConstraint)
       end
     end
 
-    if table.maxn(atChoices)==0 then
+    if #atChoices==0 then
       self.tLog.error('The constraint table contains no values.')
       error('invalid constraint')
     end

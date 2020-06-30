@@ -122,7 +122,7 @@ function Tester:getCommonPlugin(strInterfacePattern)
     end
 
     local iSelectedInterfaceIndex = nil
-    if table.maxn(aDetectedInterfaces)==0 then
+    if #aDetectedInterfaces==0 then
       print('No interface found.')
     else
       -- Search all detected interfaces for the pattern.
