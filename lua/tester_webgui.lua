@@ -28,7 +28,7 @@ end
 
 
 
-function Tester.hexdump(strData, uiBytesPerRow)
+function Tester:hexdump(strData, uiBytesPerRow)
   uiBytesPerRow = uiBytesPerRow or 16
 
   local aDump
