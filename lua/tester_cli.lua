@@ -85,6 +85,9 @@ function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
     if strInterfacePattern==nil then
       -- An empty pattern matches all interfaces.
       fMatches = true
+    elseif strInterfacePattern=='INTERACTIVE' then
+      -- An interactive selection matches all interfaces.
+      fMatches = true
     elseif string.match(strPluginName, strInterfacePattern)~=nil then
       fMatches = true
     end
@@ -96,7 +99,7 @@ function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
   end
 
   if tPlugin==nil then
-    if self.fInteractivePluginSelection==true then
+    if self.fInteractivePluginSelection==true or strInterfacePattern=='INTERACTIVE' then
       -- Ask the user to pick a plugin.
       -- NOTE: Do not limit the selection to the interface pattern. This is
       --       an override mode.
