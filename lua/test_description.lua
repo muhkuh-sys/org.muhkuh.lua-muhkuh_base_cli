@@ -15,6 +15,7 @@ function TestDescription:_init(tLog)
   self.atTestCases = nil
   self.uiNumberOfTests = nil
   self.astrTestNames = nil
+  self.tSystem = nil
 end
 
 
@@ -87,6 +88,20 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     else
       aLxpAttr.strParameterName = strName
     end
+
+  elseif strCurrentPath=='/MuhkuhTest/System' then
+    aLxpAttr.strParameterName = nil
+    aLxpAttr.strParameterValue = nil
+
+  elseif strCurrentPath=='/MuhkuhTest/System/Parameter' then
+    local strName = atAttributes['name']
+    if strName==nil or strName=='' then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    else
+      aLxpAttr.strParameterName = strName
+    end
+
   end
 end
 
@@ -106,6 +121,7 @@ function TestDescription.__parseTests_EndElement(tParser, strName)
   if strCurrentPath=='/MuhkuhTest/Testcase' then
     table.insert(aLxpAttr.atTestCases, aLxpAttr.tTestCase)
     aLxpAttr.tTestCase = nil
+
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Parameter' then
     if aLxpAttr.strParameterName==nil then
       aLxpAttr.tResult = nil
@@ -116,6 +132,7 @@ function TestDescription.__parseTests_EndElement(tParser, strName)
     else
       table.insert(aLxpAttr.tTestCase.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
     end
+
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Connection' then
     if aLxpAttr.strParameterName==nil then
       aLxpAttr.tResult = nil
@@ -126,6 +143,18 @@ function TestDescription.__parseTests_EndElement(tParser, strName)
     else
       table.insert(aLxpAttr.tTestCase.parameter, {name=aLxpAttr.strParameterName, connection=aLxpAttr.strParameterConnection})
     end
+
+  elseif strCurrentPath=='/MuhkuhTest/System/Parameter' then
+    if aLxpAttr.strParameterName==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    elseif aLxpAttr.strParameterValue==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing value for parameter.', iPosLine, iPosColumn)
+    else
+      table.insert(aLxpAttr.tSystem.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
+    end
+
   end
 
   table.remove(aLxpAttr.atCurrentPath)
@@ -144,8 +173,13 @@ function TestDescription.__parseTests_CharacterData(tParser, strData)
 
   if aLxpAttr.strCurrentPath=="/MuhkuhTest/Testcase/Parameter" then
     aLxpAttr.strParameterValue = strData
+
   elseif aLxpAttr.strCurrentPath=="/MuhkuhTest/Testcase/Connection" then
     aLxpAttr.strParameterConnection = strData
+
+  elseif aLxpAttr.strCurrentPath=="/MuhkuhTest/System/Parameter" then
+    aLxpAttr.strParameterValue = strData
+
   end
 end
 
@@ -172,6 +206,7 @@ function TestDescription:__parse_tests(strTestsFile)
       strPre = nil,
       strPost = nil,
       tTestCase = nil,
+      tSystem = { parameter={} },
       strParameterName = nil,
       strParameterValue = nil,
       strParameterConnection = nil,
@@ -208,6 +243,7 @@ function TestDescription:__parse_tests(strTestsFile)
       self.strPre = aLxpAttr.strPre
       self.strPost = aLxpAttr.strPost
       self.atTestCases = aLxpAttr.atTestCases
+      self.tSystem = aLxpAttr.tSystem
       tResult = true
     end
   end
@@ -274,6 +310,18 @@ end
 
 function TestDescription:getPost()
   return self.strPost
+end
+
+
+
+function TestDescription:getSystemParameter()
+  local tResult
+
+  if self.tSystem~=nil then
+    tResult = self.tSystem.parameter
+  end
+
+  return tResult
 end
 
 
