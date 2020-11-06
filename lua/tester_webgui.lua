@@ -434,4 +434,26 @@ function Tester:setInteractionData(strData)
 end
 
 
+
+function Tester:getCurrentPeerName()
+  -- Send the request.
+  local strMsg = 'GPN'
+  self.tSocket:send(strMsg)
+
+  -- Wait for the response.
+  local strResponse
+
+  repeat
+    local strMessage = self.tSocket:recv()
+    strResponse = string.match(strMessage, '^SPN(.*)')
+    if strResponse==nil then
+      self.tLog.debug('Ignoring invalid response: %s', strMessage)
+    end
+  until strResponse~=nil
+
+  return strResponse
+end
+
+
+
 return Tester
