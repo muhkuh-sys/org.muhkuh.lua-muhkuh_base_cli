@@ -410,7 +410,6 @@ function Tester:setInteractionGetJson(strFilename, atReplace)
       if tJson==nil then
         tLog.error('JSON Error: %d %s', uiPos, strJsonErr)
       else
-        tLog.debug('JSON OK!')
         tResult = tJson
       end
     end
