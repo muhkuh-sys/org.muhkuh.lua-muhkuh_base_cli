@@ -428,7 +428,6 @@ end
 
 function Tester:setInteractionData(strData)
   local strMsg = string.format('IDA%s', strData)
-  print(string.format('Sending data: %s', strMsg))
   self.tSocket:send(strMsg)
 end
 
