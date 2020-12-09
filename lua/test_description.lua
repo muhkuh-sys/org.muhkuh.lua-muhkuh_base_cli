@@ -16,6 +16,7 @@ function TestDescription:_init(tLog)
   self.uiNumberOfTests = nil
   self.astrTestNames = nil
   self.tSystem = nil
+  self.atDocuments = nil
 end
 
 
@@ -102,6 +103,20 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
       aLxpAttr.strParameterName = strName
     end
 
+  elseif strCurrentPath=='/MuhkuhTest/Documents' then
+    aLxpAttr.strDocumentName = nil
+    aLxpAttr.strDocumentUrl = nil
+
+  elseif strCurrentPath=='/MuhkuhTest/Documents/Document' then
+    local strName = atAttributes['name']
+    if strName==nil or strName=='' then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    else
+      aLxpAttr.strDocumentName = strName
+    end
+
+
   end
 end
 
@@ -155,6 +170,16 @@ function TestDescription.__parseTests_EndElement(tParser, strName)
       table.insert(aLxpAttr.tSystem.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
     end
 
+  elseif strCurrentPath=='/MuhkuhTest/Documents/Document' then
+    if aLxpAttr.strDocumentName==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    elseif aLxpAttr.strDocumentUrl==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing value for document.', iPosLine, iPosColumn)
+    else
+      table.insert(aLxpAttr.atDocuments, {name=aLxpAttr.strDocumentName, url=aLxpAttr.strDocumentUrl})
+    end
   end
 
   table.remove(aLxpAttr.atCurrentPath)
@@ -171,14 +196,18 @@ end
 function TestDescription.__parseTests_CharacterData(tParser, strData)
   local aLxpAttr = tParser:getcallbacks().userdata
 
-  if aLxpAttr.strCurrentPath=="/MuhkuhTest/Testcase/Parameter" then
+  local strCurrentPath = aLxpAttr.strCurrentPath
+  if strCurrentPath=="/MuhkuhTest/Testcase/Parameter" then
     aLxpAttr.strParameterValue = strData
 
-  elseif aLxpAttr.strCurrentPath=="/MuhkuhTest/Testcase/Connection" then
+  elseif strCurrentPath=="/MuhkuhTest/Testcase/Connection" then
     aLxpAttr.strParameterConnection = strData
 
-  elseif aLxpAttr.strCurrentPath=="/MuhkuhTest/System/Parameter" then
+  elseif strCurrentPath=="/MuhkuhTest/System/Parameter" then
     aLxpAttr.strParameterValue = strData
+
+  elseif strCurrentPath=='/MuhkuhTest/Documents/Document' then
+    aLxpAttr.strDocumentUrl = strData
 
   end
 end
@@ -211,6 +240,9 @@ function TestDescription:__parse_tests(strTestsFile)
       strParameterValue = nil,
       strParameterConnection = nil,
       atTestCases = {},
+      strDocumentName = nil,
+      strDocumentUrl = nil,
+      atDocuments = {},
 
       tResult = true,
       tLog = tLog
@@ -244,6 +276,7 @@ function TestDescription:__parse_tests(strTestsFile)
       self.strPost = aLxpAttr.strPost
       self.atTestCases = aLxpAttr.atTestCases
       self.tSystem = aLxpAttr.tSystem
+      self.atDocuments = aLxpAttr.atDocuments
       tResult = true
     end
   end
@@ -467,6 +500,12 @@ function TestDescription:getTestCaseActionPost(uiTestCase)
   end
 
   return tResult
+end
+
+
+
+function TestDescription:getDocuments()
+  return self.atDocuments
 end
 
 
