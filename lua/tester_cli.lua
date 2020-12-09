@@ -334,6 +334,7 @@ function Tester:mbin_set_parameter(tPlugin, aAttr, aParameter)
     tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
 
     for iIdx,tValue in ipairs(aParameter) do
+      local ulValue
       if type(tValue)=='string' and tValue=='OUTPUT' then
         -- Initialize output variables with 0.
         ulValue = 0
