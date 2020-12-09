@@ -3,8 +3,9 @@ local Tester = class()
 
 
 function Tester:_init()
-  self.pl = require'pl.import_into'()
+  self.archive = require 'archive'
   self.json = require 'dkjson'
+  self.pl = require'pl.import_into'()
   self.zmq = require 'lzmq'
 
   self.tCommonPlugin = nil
@@ -460,6 +461,40 @@ function Tester:sendLogEvent(strEventId, atAttributes)
   local strData = self.json.encode(tData)
   local strMsg = string.format('LEV%s', strData)
   self.tSocket:send(strMsg)
+end
+
+
+
+function Tester:asciiArmor(strData)
+  local archive = self.archive
+
+  -- Create a new archive object.
+  local tArchive = archive.ArchiveWrite()
+  -- Output only the data from the filters.
+  tArchive:set_format_raw()
+  -- Filter the input data with GZIP and then BASE64.
+  tArchive:add_filter_gzip()
+  tArchive:add_filter_b64encode()
+  -- Provide a buffer which is large enough for the compressed data.
+  -- NOTE: 2 * the size of the input data is way to much.
+  tArchive:open_memory(string.len(strData)*2)
+
+  -- Now create a new archive entry - even if we do not have a real archive here.
+  -- It is necessary to set the filetype of the entry to "regular file", or no
+  -- data will arrive on the output side.
+  local tEntry = archive.ArchiveEntry()
+  tEntry:set_filetype(archive.AE_IFREG)
+  -- First write the header, then the data, the finish the entry.
+  tArchive:write_header(tEntry)
+  tArchive:write_data(strData)
+  tArchive:finish_entry()
+  -- Write only one entry, as this is no real archive.
+  tArchive:close()
+
+  -- Get the compressed and encoded data.
+  local strCompressed = tArchive:get_memory()
+
+  return strCompressed
 end
 
 
