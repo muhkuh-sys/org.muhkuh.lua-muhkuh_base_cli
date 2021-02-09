@@ -459,10 +459,13 @@ end
 
 
 function Tester:sendLogEvent(strEventId, atAttributes)
-  local tData = { id=strEventId, attr=atAttributes }
-  local strData = self.json.encode(tData)
-  local strMsg = string.format('LEV%s', strData)
-  self.tSocket:send(strMsg)
+  local tSocket = self.tSocket
+  if tSocket~=nil then
+    local tData = { id=strEventId, attr=atAttributes }
+    local strData = self.json.encode(tData)
+    local strMsg = string.format('LEV%s', strData)
+    tSocket:send(strMsg)
+  end
 end
 
 
