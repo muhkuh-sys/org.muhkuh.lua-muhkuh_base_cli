@@ -88,7 +88,9 @@ end
 
 
 
-function Tester:getCommonPlugin(strInterfacePattern)
+function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
+  atPluginOptions = atPluginOptions or {}
+
   -- Is a common plugin present?
   local tPlugin = self.tCommonPlugin
   local strPluginName = self.strCommonPluginName
@@ -118,7 +120,7 @@ function Tester:getCommonPlugin(strInterfacePattern)
       error('No plugins registered!')
     else
       for _, tPlugin in ipairs(atPlugins) do
-        tPlugin:DetectInterfaces(aDetectedInterfaces)
+        tPlugin:DetectInterfaces(aDetectedInterfaces, atPluginOptions)
       end
     end
 
