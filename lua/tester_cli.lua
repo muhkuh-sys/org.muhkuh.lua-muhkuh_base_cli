@@ -5,12 +5,20 @@ local Tester = class()
 function Tester:_init(tLog)
   self.archive = require 'archive'
   self.pl = require'pl.import_into'()
+  self.json = require 'dkjson'
 
   self.tCommonPlugin = nil
   self.strCommonPluginName = nil
 
   self.tLog = tLog
+  self.tSocket = nil
   self.fInteractivePluginSelection = false
+end
+
+
+
+function Tester:setSocket(tSocket)
+  self.tSocket = tSocket
 end
 
 
@@ -406,6 +414,19 @@ function Tester:mbin_simple_run(tPlugin, strFilename, aParameter)
   self:mbin_set_parameter(tPlugin, aAttr, aParameter)
   return self:mbin_execute(tPlugin, aAttr, aParameter)
 end
+
+
+
+function Tester:sendLogEvent(strEventId, atAttributes)
+  local tSocket = self.tSocket
+  if tSocket~=nil then
+    local tData = { id=strEventId, attr=atAttributes }
+    local strData = self.json.encode(tData)
+    local strMsg = string.format('LEV%s', strData)
+    tSocket:send(strMsg)
+  end
+end
+
 
 
 function Tester:asciiArmor(strData)
