@@ -63,6 +63,7 @@ tArcList51.AddFiles('lua/',
                    'lua/parameter_uint8.lua',
                    'lua/test_class.lua',
                    'lua/test_description.lua',
+                   'lua/tester_base.lua',
                    'lua/tester_cli.lua',
                    'lua/tester_webgui.lua')
 
@@ -91,6 +92,7 @@ tArcList54.AddFiles('lua/',
                    'lua/parameter_uint8.lua',
                    'lua/test_class.lua',
                    'lua/test_description.lua',
+                   'lua/tester_base.lua',
                    'lua/tester_cli.lua',
                    'lua/tester_webgui.lua')
 
