@@ -3,6 +3,7 @@ local Tester = class()
 
 
 function Tester:_init(tLog)
+  self.archive = require 'archive'
   self.pl = require'pl.import_into'()
 
   self.tCommonPlugin = nil
@@ -404,6 +405,39 @@ function Tester:mbin_simple_run(tPlugin, strFilename, aParameter)
   self:mbin_write(tPlugin, aAttr)
   self:mbin_set_parameter(tPlugin, aAttr, aParameter)
   return self:mbin_execute(tPlugin, aAttr, aParameter)
+end
+
+
+function Tester:asciiArmor(strData)
+  local archive = self.archive
+
+  -- Create a new archive object.
+  local tArchive = archive.ArchiveWrite()
+  -- Output only the data from the filters.
+  tArchive:set_format_raw()
+  -- Filter the input data with GZIP and then BASE64.
+  tArchive:add_filter_gzip()
+  tArchive:add_filter_b64encode()
+  -- Provide a buffer which is large enough for the compressed data.
+  -- NOTE: 2 * the size of the input data is way to much.
+  tArchive:open_memory(string.len(strData)*2)
+
+  -- Now create a new archive entry - even if we do not have a real archive here.
+  -- It is necessary to set the filetype of the entry to "regular file", or no
+  -- data will arrive on the output side.
+  local tEntry = archive.ArchiveEntry()
+  tEntry:set_filetype(archive.AE_IFREG)
+  -- First write the header, then the data, the finish the entry.
+  tArchive:write_header(tEntry)
+  tArchive:write_data(strData)
+  tArchive:finish_entry()
+  -- Write only one entry, as this is no real archive.
+  tArchive:close()
+
+  -- Get the compressed and encoded data.
+  local strCompressed = tArchive:get_memory()
+
+  return strCompressed
 end
 
 
