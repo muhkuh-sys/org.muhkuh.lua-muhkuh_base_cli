@@ -88,10 +88,16 @@ end
 
 
 
+function Tester:setCommonPlugin(tPlugin)
+  self.tCommonPlugin = tPlugin
+end
+
+
+
 function Tester:getCommonPlugin(strInterfacePattern, atPluginOptions)
   atPluginOptions = atPluginOptions or {}
 
-  -- Is a common plugin present?
+  -- Is a plugin open?
   local tPlugin = self.tCommonPlugin
   local strPluginName = self.strCommonPluginName
   if tPlugin~=nil then
@@ -252,12 +258,13 @@ end
 
 
 function Tester:mbin_debug(aAttr, tLogLevel)
-  print(string.format('file "%s":', aAttr.strFilename))
-  print(string.format('  header version: %d.%d', aAttr.ulHeaderVersionMaj, aAttr.ulHeaderVersionMin))
-  print(string.format('  load address:   0x%08x', aAttr.ulLoadAddress))
-  print(string.format('  exec address:   0x%08x', aAttr.ulExecAddress))
-  print(string.format('  parameter:      0x%08x - 0x%08x', aAttr.ulParameterStartAddress, aAttr.ulParameterEndAddress))
-  print(string.format('  binary:         %d bytes', aAttr.strBinary:len()))
+  local tLog = self.tLog
+  tLog.debug('file "%s":', aAttr.strFilename)
+  tLog.debug('  header version: %d.%d', aAttr.ulHeaderVersionMaj, aAttr.ulHeaderVersionMin)
+  tLog.debug('  load address:   0x%08x', aAttr.ulLoadAddress)
+  tLog.debug('  exec address:   0x%08x', aAttr.ulExecAddress)
+  tLog.debug('  parameter:      0x%08x - 0x%08x', aAttr.ulParameterStartAddress, aAttr.ulParameterEndAddress)
+  tLog.debug('  binary:         %d bytes', aAttr.strBinary:len())
 end
 
 

@@ -46,10 +46,12 @@ function Tester:hexdump(strData, uiBytesPerRow)
 end
 
 
+
 function Tester.callback_progress(a,b)
   print(string.format("%d%% (%d/%d)", math.floor(a*100/b), a, b))
   return true
 end
+
 
 function Tester.callback(a,b)
   io.write(a)
@@ -62,9 +64,13 @@ function Tester:stdRead(tPlugin, ulAddress, sizData)
   return tPlugin:read_image(ulAddress, sizData, self.callback_progress, sizData)
 end
 
+
+
 function Tester:stdWrite(tPlugin, ulAddress, strData)
   tPlugin:write_image(ulAddress, strData, self.callback_progress, string.len(strData))
 end
+
+
 
 function Tester:stdCall(tPlugin, ulAddress, ulParameter)
   print('__/Output/____________________________________________________________________')
@@ -236,18 +242,13 @@ end
 
 function Tester:closeCommonPlugin()
   local tPlugin = self.tCommonPlugin
-  if tPlugin then
-    if tPlugin:IsConnected()==true then
-      -- Disconnect the plugin.
-      tPlugin:Disconnect()
-    end
-
-    -- Free the plugin.
-    if tPlugin.delete~=nil then
-      tPlugin:delete()
-    end
-    self.tCommonPlugin = nil
+  if tPlugin~=nil and tPlugin:IsConnected()==true then
+    -- Disconnect the plugin.
+    tPlugin:Disconnect()
   end
+
+  self.tCommonPlugin = nil
+  self.strCommonPluginName = nil
 end
 
 
