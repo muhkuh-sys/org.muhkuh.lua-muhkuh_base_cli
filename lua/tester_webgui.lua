@@ -298,9 +298,18 @@ function Tester:mbin_set_parameter(tPlugin, aAttr, aParameter)
           error(string.format("The parameter %s exceeds the range of an unsigned 32bit integer number.", tostring(tValue)))
         end
       end
-      tPlugin:write_data32(aAttr.ulParameterStartAddress+0x0c+((iIdx-1)*4), ulValue)
+      local ulAddress = aAttr.ulParameterStartAddress + 0x0c + ((iIdx-1)*4)
+      if ulAddress>aAttr.ulParameterEndAddress then
+        error('The parameter exceed the available space.')
+      end
+      tPlugin:write_data32(ulAddress, ulValue)
     end
   elseif type(aParameter)=='string' then
+    local ulEndAddress = aAttr.ulParameterStartAddress+0x0c+string.len(aParameter)
+    if ulEndAddress>aAttr.ulParameterEndAddress then
+      self.tLog.error('The parameter would use the area 0x%08x-0x%08x, but only 0x%08x-0x%08x is available.', aAttr.ulParameterStartAddress, ulEndAddress, aAttr.ulParameterStartAddress, aAttr.ulParameterEndAddress)
+      error('The parameter exceed the available space.')
+    end
     tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
     self:stdWrite(tPlugin, aAttr.ulParameterStartAddress+0x0c, aParameter)
   else
