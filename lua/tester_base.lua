@@ -11,12 +11,19 @@ function TesterBase:_init()
   self.strCommonPluginName = nil
 
   self.tSocket = nil
+  self.m_atSystemParameter = nil
 end
 
 
 
 function TesterBase:setSocket(tSocket)
   self.tSocket = tSocket
+end
+
+
+
+function TesterBase:setSystemParameter(atSystemParameter)
+  self.m_atSystemParameter = atSystemParameter
 end
 
 
@@ -305,6 +312,22 @@ function TesterBase:asciiArmor(strData)
   local strCompressed = tArchive:get_memory()
 
   return strCompressed
+end
+
+
+
+function TesterBase:updateSystemParameter(strKey, strValue)
+  local atSystemParameter = self.m_atSystemParameter
+  local tLog = self.tLog
+
+  strKey = tostring(strKey)
+  strValue = tostring(strValue)
+  if atSystemParameter==nil then
+    tLog.warning('No system parameter available, ignoring update [%s]="%s".', strKey, strValue)
+  else
+    tLog.debug('Set the system parameter [%s]="%s".', strKey, strValue)
+    atSystemParameter[strKey] = strValue
+  end
 end
 
 
