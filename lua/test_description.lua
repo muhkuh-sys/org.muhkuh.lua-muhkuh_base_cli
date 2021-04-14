@@ -27,7 +27,7 @@ end
 -- @param strName The name of the new element.
 function TestDescription.__parseTests_StartElement(tParser, strName, atAttributes)
   local aLxpAttr = tParser:getcallbacks().userdata
-  local iPosLine, iPosColumn, iPosAbs = tParser:pos()
+  local iPosLine, iPosColumn = tParser:pos()
 
   table.insert(aLxpAttr.atCurrentPath, strName)
   local strCurrentPath = table.concat(aLxpAttr.atCurrentPath, "/")
@@ -127,9 +127,9 @@ end
 -- It is called when an element is closed.
 -- @param tParser The parser object.
 -- @param strName The name of the closed element.
-function TestDescription.__parseTests_EndElement(tParser, strName)
+function TestDescription.__parseTests_EndElement(tParser)
   local aLxpAttr = tParser:getcallbacks().userdata
-  local iPosLine, iPosColumn, iPosAbs = tParser:pos()
+  local iPosLine, iPosColumn = tParser:pos()
 
   local strCurrentPath = aLxpAttr.strCurrentPath
 
@@ -311,7 +311,7 @@ function TestDescription:parse(strTestsFile)
 
       -- Get a lookup table with the test names.
       local astrTestNames = {}
-      for uiTestIndex, tTestCase in ipairs(atTestCases) do
+      for _, tTestCase in ipairs(atTestCases) do
         table.insert(astrTestNames, tTestCase.name)
       end
       self.astrTestNames = astrTestNames
