@@ -65,12 +65,30 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
         name = strName,
         pre = strPre,
         post = strPost,
-        parameter = {}
+        parameter = {},
+        errorIf = {},
+        excludeIf = {}
       }
       aLxpAttr.tTestCase = tTestCase
       aLxpAttr.strParameterName = nil
       aLxpAttr.strParameterValue = nil
+      aLxpAttr.strConditionValue = nil
+      aLxpAttr.strConditionMessage = nil
     end
+
+  elseif strCurrentPath=='/MuhkuhTest/Testcase/ErrorIf' then
+    local strMessage = atAttributes['message']
+    if strMessage==nil then
+      strMessage = ''
+    end
+    aLxpAttr.strConditionMessage = strMessage
+
+  elseif strCurrentPath=='/MuhkuhTest/Testcase/ExcludeIf' then
+    local strMessage = atAttributes['message']
+    if strMessage==nil then
+      strMessage = ''
+    end
+    aLxpAttr.strConditionMessage = strMessage
 
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Parameter' then
     local strName = atAttributes['name']
@@ -137,6 +155,22 @@ function TestDescription.__parseTests_EndElement(tParser)
     table.insert(aLxpAttr.atTestCases, aLxpAttr.tTestCase)
     aLxpAttr.tTestCase = nil
 
+  elseif strCurrentPath=='/MuhkuhTest/Testcase/ErrorIf' then
+    if aLxpAttr.strConditionValue==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing condition expression.', iPosLine, iPosColumn)
+    else
+      table.insert(aLxpAttr.tTestCase.errorIf, { condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage})
+    end
+
+  elseif strCurrentPath=='/MuhkuhTest/Testcase/ExcludeIf' then
+    if aLxpAttr.strConditionValue==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing condition expression.', iPosLine, iPosColumn)
+    else
+      table.insert(aLxpAttr.tTestCase.excludeIf, { condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage})
+    end
+
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Parameter' then
     if aLxpAttr.strParameterName==nil then
       aLxpAttr.tResult = nil
@@ -199,6 +233,12 @@ function TestDescription.__parseTests_CharacterData(tParser, strData)
   local strCurrentPath = aLxpAttr.strCurrentPath
   if strCurrentPath=="/MuhkuhTest/Testcase/Parameter" then
     aLxpAttr.strParameterValue = strData
+
+  elseif strCurrentPath=="/MuhkuhTest/Testcase/ErrorIf" then
+    aLxpAttr.strConditionValue = strData
+
+  elseif strCurrentPath=="/MuhkuhTest/Testcase/ExcludeIf" then
+    aLxpAttr.strConditionValue = strData
 
   elseif strCurrentPath=="/MuhkuhTest/Testcase/Connection" then
     aLxpAttr.strParameterConnection = strData
@@ -492,6 +532,48 @@ function TestDescription:getTestCaseActionPost(uiTestCase)
   if strType=='number' then
     if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
       tResult = self.atTestCases[uiTestCase].post
+    else
+      tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
+    end
+  else
+    tLog.error('The test case must be a number, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getTestCaseExcludeIf(uiTestCase)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(uiTestCase)
+  if strType=='number' then
+    if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
+      tResult = self.atTestCases[uiTestCase].excludeIf
+    else
+      tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
+    end
+  else
+    tLog.error('The test case must be a number, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getTestCaseErrorIf(uiTestCase)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(uiTestCase)
+  if strType=='number' then
+    if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
+      tResult = self.atTestCases[uiTestCase].errorIf
     else
       tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
     end
