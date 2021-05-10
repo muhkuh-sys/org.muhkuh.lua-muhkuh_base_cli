@@ -260,12 +260,12 @@ function TesterBase:mbin_execute(tPlugin, aAttr, aParameter, fnCallback, ulUserD
 end
 
 
-function TesterBase:mbin_simple_run(tPlugin, strFilename, aParameter)
-  local aAttr = self:mbin_open(strFilename, tPlugin)
-  self:mbin_debug(aAttr)
-  self:mbin_write(tPlugin, aAttr)
-  self:mbin_set_parameter(tPlugin, aAttr, aParameter)
-  return self:mbin_execute(tPlugin, aAttr, aParameter)
+function TesterBase:mbin_simple_run(tPlugin, strFilename, aParameter,fnCallback)
+	local aAttr = self:mbin_open(strFilename, tPlugin)
+	self:mbin_debug(aAttr)
+	self:mbin_write(tPlugin, aAttr)
+	self:mbin_set_parameter(tPlugin, aAttr, aParameter)
+	return self:mbin_execute(tPlugin, aAttr, aParameter, fnCallback)
 end
 
 
