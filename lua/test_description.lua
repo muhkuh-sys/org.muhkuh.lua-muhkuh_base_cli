@@ -17,6 +17,7 @@ function TestDescription:_init(tLog)
   self.astrTestNames = nil
   self.tSystem = nil
   self.atDocuments = nil
+  self.tConfiguration = nil
 end
 
 
@@ -134,6 +135,19 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
       aLxpAttr.strDocumentName = strName
     end
 
+  elseif strCurrentPath=='/MuhkuhTest/Configuration' then
+    aLxpAttr.strParameterName = nil
+    aLxpAttr.strParameterValue = nil
+
+  elseif strCurrentPath=='/MuhkuhTest/Configuration/Parameter' then
+    local strName = atAttributes['name']
+    if strName==nil or strName=='' then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    else
+      aLxpAttr.strParameterName = strName
+    end
+
 
   end
 end
@@ -214,6 +228,17 @@ function TestDescription.__parseTests_EndElement(tParser)
     else
       table.insert(aLxpAttr.atDocuments, {name=aLxpAttr.strDocumentName, url=aLxpAttr.strDocumentUrl})
     end
+
+  elseif strCurrentPath=='/MuhkuhTest/Configuration/Parameter' then
+    if aLxpAttr.strParameterName==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+    elseif aLxpAttr.strParameterValue==nil then
+      aLxpAttr.tResult = nil
+      aLxpAttr.tLog.error('Error in line %d, col %d: missing value for parameter.', iPosLine, iPosColumn)
+    else
+      table.insert(aLxpAttr.tConfiguration.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
+    end
   end
 
   table.remove(aLxpAttr.atCurrentPath)
@@ -249,6 +274,9 @@ function TestDescription.__parseTests_CharacterData(tParser, strData)
   elseif strCurrentPath=='/MuhkuhTest/Documents/Document' then
     aLxpAttr.strDocumentUrl = strData
 
+  elseif strCurrentPath=="/MuhkuhTest/Configuration/Parameter" then
+    aLxpAttr.strParameterValue = strData
+
   end
 end
 
@@ -283,6 +311,7 @@ function TestDescription:__parse_tests(strTestsFile)
       strDocumentName = nil,
       strDocumentUrl = nil,
       atDocuments = {},
+      tConfiguration = { parameter={} },
 
       tResult = true,
       tLog = tLog
@@ -317,6 +346,7 @@ function TestDescription:__parse_tests(strTestsFile)
       self.atTestCases = aLxpAttr.atTestCases
       self.tSystem = aLxpAttr.tSystem
       self.atDocuments = aLxpAttr.atDocuments
+      self.tConfiguration = aLxpAttr.tConfiguration
       tResult = true
     end
   end
@@ -392,6 +422,18 @@ function TestDescription:getSystemParameter()
 
   if self.tSystem~=nil then
     tResult = self.tSystem.parameter
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getConfigurationParameter()
+  local tResult
+
+  if self.tConfiguration~=nil then
+    tResult = self.tConfiguration.parameter
   end
 
   return tResult
