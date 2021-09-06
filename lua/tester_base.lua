@@ -22,6 +22,12 @@ end
 
 
 
+function TesterBase:getSystemParameter()
+  return self.m_atSystemParameter
+end
+
+
+
 function TesterBase:setSystemParameter(atSystemParameter)
   self.m_atSystemParameter = atSystemParameter
 end
