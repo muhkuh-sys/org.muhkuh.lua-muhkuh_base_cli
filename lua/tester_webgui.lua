@@ -97,6 +97,7 @@ function TesterWebGui:getCommonPlugin(strInterfacePattern, atPluginOptions)
         else
           self.tCommonPlugin = tPlugin
           self.strCommonPluginName = strInterfaceName
+          _G.tCommonPlugin = tPlugin
         end
       end
     end

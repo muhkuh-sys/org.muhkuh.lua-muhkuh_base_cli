@@ -94,6 +94,7 @@ end
 
 function TesterBase:setCommonPlugin(tPlugin)
   self.tCommonPlugin = tPlugin
+  _G.tCommonPlugin = tPlugin
 end
 
 
@@ -107,6 +108,7 @@ function TesterBase:closeCommonPlugin()
 
   self.tCommonPlugin = nil
   self.strCommonPluginName = nil
+  _G.tCommonPlugin = nil
 end
 
 
