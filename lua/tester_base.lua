@@ -94,6 +94,7 @@ end
 
 function TesterBase:setCommonPlugin(tPlugin)
   self.tCommonPlugin = tPlugin
+  self.strCommonPluginName = tPlugin:GetName()
   _G.tCommonPlugin = tPlugin
 end
 
