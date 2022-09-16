@@ -7,8 +7,8 @@ function TesterBase:_init()
   self.json = require 'dkjson'
   self.pl = require'pl.import_into'()
 
-  self.tCommonPlugin = nil
-  self.strCommonPluginName = nil
+  self.atCommonPlugin = {}
+  self.astrCommonPluginName = {}
 
   self.tSocket = nil
   self.m_atSystemParameter = nil
@@ -92,24 +92,28 @@ end
 
 
 
-function TesterBase:setCommonPlugin(tPlugin)
-  self.tCommonPlugin = tPlugin
-  self.strCommonPluginName = tPlugin:GetName()
-  _G.tCommonPlugin = tPlugin
+function TesterBase:setCommonPlugin(tPlugin, uiIndex)
+  -- Default to plugin index 0.
+  uiIndex = uiIndex or 0
+
+  self.atCommonPlugin[uiIndex] = tPlugin
+  self.astrCommonPluginName[uiIndex] = tPlugin:GetName()
 end
 
 
 
-function TesterBase:closeCommonPlugin()
-  local tPlugin = self.tCommonPlugin
+function TesterBase:closeCommonPlugin(uiIndex)
+  -- Default to plugin index 0.
+  uiIndex = uiIndex or 0
+
+  local tPlugin = self.atCommonPlugin[uiIndex]
   if tPlugin~=nil and tPlugin:IsConnected()==true then
     -- Disconnect the plugin.
     tPlugin:Disconnect()
   end
 
-  self.tCommonPlugin = nil
-  self.strCommonPluginName = nil
-  _G.tCommonPlugin = nil
+  self.atCommonPlugin[uiIndex] = nil
+  self.astrCommonPluginName[uiIndex] = nil
 end
 
 

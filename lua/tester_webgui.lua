@@ -22,9 +22,21 @@ end
 function TesterWebGui:getCommonPlugin(strInterfacePattern, atPluginOptions)
   atPluginOptions = atPluginOptions or {}
 
+  -- Does the interface pattern start with a number?
+  local ulPrefix
+  local strPrefix = string.match(strInterfacePattern, '^(%d+):')
+  if strPrefix~=nil then
+    ulPrefix = tonumber(strPrefix)
+
+    -- Cut off the prefix from the pattern.
+    strInterfacePattern = string.sub(strInterfacePattern, string.len(strPrefix)+2)
+  end
+  -- Use a default of 0 for the prefix.
+  ulPrefix = ulPrefix or 0
+
   -- Is a plugin open?
-  local tPlugin = self.tCommonPlugin
-  local strPluginName = self.strCommonPluginName
+  local tPlugin = self.atCommonPlugin[ulPrefix]
+  local strPluginName = self.astrCommonPluginName[ulPrefix]
   if tPlugin~=nil then
     -- Yes -> does it match the interface?
     local fMatches = false
@@ -37,7 +49,7 @@ function TesterWebGui:getCommonPlugin(strInterfacePattern, atPluginOptions)
     if fMatches~=true then
       -- The current plugin does not match the pattern.
       -- Close it and select a new one.
-      self:closeCommonPlugin()
+      self:closeCommonPlugin(ulPrefix)
     end
   end
 
@@ -95,9 +107,8 @@ function TesterWebGui:getCommonPlugin(strInterfacePattern, atPluginOptions)
         if tPlugin==nil then
           print(string.format('Failed to connect to the interface "%s".', strInterfaceName))
         else
-          self.tCommonPlugin = tPlugin
-          self.strCommonPluginName = strInterfaceName
-          _G.tCommonPlugin = tPlugin
+          self.atCommonPlugin[ulPrefix] = tPlugin
+          self.astrCommonPluginName[ulPrefix] = strInterfaceName
         end
       end
     end
