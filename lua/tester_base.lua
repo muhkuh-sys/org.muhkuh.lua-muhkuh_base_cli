@@ -118,6 +118,14 @@ end
 
 
 
+function TesterBase:closeAllCommonPlugins(uiIndex)
+  for uiIndex in pairs(self.atCommonPlugin) do
+    self:closeCommonPlugin(uiIndex)
+  end
+end
+
+
+
 function TesterBase:mbin_open(strFilename, tPlugin)
   local aAttr
 
