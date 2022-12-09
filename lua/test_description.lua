@@ -49,6 +49,8 @@ function TestDescription.__parseTests_StartElement(tParser, strElementName, atAt
     local strID = atAttributes['id']
     local strFile = atAttributes['file']
     local strName = atAttributes['name']
+    local strDoc = atAttributes['documentation']
+    local strParameterFile = atAttributes['parameter_file']
     local strPre = atAttributes['pre']
     local strPost = atAttributes['post']
     if (strID==nil or strID=='') and (strFile==nil or strFile=='') then
@@ -73,6 +75,8 @@ function TestDescription.__parseTests_StartElement(tParser, strElementName, atAt
         id = strID,
         file = strFile,
         name = strName,
+        doc = strDoc,
+        parameter_file = strParameterFile,
         pre = strPre,
         post = strPost,
         parameter = {},
@@ -516,6 +520,78 @@ function TestDescription:getTestCaseId(uiTestCase)
       local tAttr = self.atTestCases[uiTestCase]
       if tAttr~=nil then
         tResult = tAttr.id
+      end
+    else
+      tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
+    end
+  else
+    tLog.error('The test case must be a number, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getTestCaseFile(uiTestCase)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(uiTestCase)
+  if strType=='number' then
+    if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
+      local tAttr = self.atTestCases[uiTestCase]
+      if tAttr~=nil then
+        tResult = tAttr.file
+      end
+    else
+      tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
+    end
+  else
+    tLog.error('The test case must be a number, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getTestCaseDoc(uiTestCase)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(uiTestCase)
+  if strType=='number' then
+    if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
+      local tAttr = self.atTestCases[uiTestCase]
+      if tAttr~=nil then
+        tResult = tAttr.doc
+      end
+    else
+      tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
+    end
+  else
+    tLog.error('The test case must be a number, here it has the type %s.', strType)
+  end
+
+  return tResult
+end
+
+
+
+function TestDescription:getTestCaseParameterFile(uiTestCase)
+  local tLog = self.tLog
+  local tResult
+
+  -- Is the test case valid?
+  local strType = type(uiTestCase)
+  if strType=='number' then
+    if uiTestCase>0 and uiTestCase<=self.uiNumberOfTests then
+      local tAttr = self.atTestCases[uiTestCase]
+      if tAttr~=nil then
+        tResult = tAttr.parameter_file
       end
     else
       tLog.error('Invalid test case index for test cases 1 to %d: %d .', self.uiNumberOfTests, uiTestCase)
