@@ -26,11 +26,12 @@ end
 -- It is called when a new element is opened.
 -- @param tParser The parser object.
 -- @param strName The name of the new element.
-function TestDescription.__parseTests_StartElement(tParser, strName, atAttributes)
+function TestDescription.__parseTests_StartElement(tParser, strElementName, atAttributes)
   local aLxpAttr = tParser:getcallbacks().userdata
+  local tLog = aLxpAttr.tLog
   local iPosLine, iPosColumn = tParser:pos()
 
-  table.insert(aLxpAttr.atCurrentPath, strName)
+  table.insert(aLxpAttr.atCurrentPath, strElementName)
   local strCurrentPath = table.concat(aLxpAttr.atCurrentPath, "/")
   aLxpAttr.strCurrentPath = strCurrentPath
 
@@ -52,13 +53,21 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strPost = atAttributes['post']
     if (strID==nil or strID=='') and (strFile==nil or strFile=='') then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: one of "id" or "file" must be present, but none found.', iPosLine, iPosColumn)
+      tLog.error(
+        'Error in line %d, col %d: one of "id" or "file" must be present, but none found.',
+        iPosLine,
+        iPosColumn
+      )
     elseif (strID~=nil and strID~='') and (strFile~=nil and strFile~='') then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: one of "id" or "file" must be present, but both found.', iPosLine, iPosColumn)
+      tLog.error(
+        'Error in line %d, col %d: one of "id" or "file" must be present, but both found.',
+        iPosLine,
+        iPosColumn
+      )
     elseif strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       local tTestCase = {
         id = strID,
@@ -95,7 +104,7 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strName = atAttributes['name']
     if strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       aLxpAttr.strParameterName = strName
     end
@@ -104,7 +113,7 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strName = atAttributes['name']
     if strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       aLxpAttr.strParameterName = strName
     end
@@ -117,7 +126,7 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strName = atAttributes['name']
     if strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       aLxpAttr.strParameterName = strName
     end
@@ -130,7 +139,7 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strName = atAttributes['name']
     if strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       aLxpAttr.strDocumentName = strName
     end
@@ -143,7 +152,7 @@ function TestDescription.__parseTests_StartElement(tParser, strName, atAttribute
     local strName = atAttributes['name']
     if strName==nil or strName=='' then
       aLxpAttr.tResult = nil
-      aLxpAttr.tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
+      tLog.error('Error in line %d, col %d: missing "name".', iPosLine, iPosColumn)
     else
       aLxpAttr.strParameterName = strName
     end
@@ -174,7 +183,10 @@ function TestDescription.__parseTests_EndElement(tParser)
       aLxpAttr.tResult = nil
       aLxpAttr.tLog.error('Error in line %d, col %d: missing condition expression.', iPosLine, iPosColumn)
     else
-      table.insert(aLxpAttr.tTestCase.errorIf, { condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage})
+      table.insert(
+        aLxpAttr.tTestCase.errorIf,
+        {condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage}
+      )
     end
 
   elseif strCurrentPath=='/MuhkuhTest/Testcase/ExcludeIf' then
@@ -182,7 +194,10 @@ function TestDescription.__parseTests_EndElement(tParser)
       aLxpAttr.tResult = nil
       aLxpAttr.tLog.error('Error in line %d, col %d: missing condition expression.', iPosLine, iPosColumn)
     else
-      table.insert(aLxpAttr.tTestCase.excludeIf, { condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage})
+      table.insert(
+        aLxpAttr.tTestCase.excludeIf,
+        {condition=aLxpAttr.strConditionValue, message=aLxpAttr.strConditionMessage}
+      )
     end
 
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Parameter' then
@@ -193,7 +208,10 @@ function TestDescription.__parseTests_EndElement(tParser)
       aLxpAttr.tResult = nil
       aLxpAttr.tLog.error('Error in line %d, col %d: missing value for parameter.', iPosLine, iPosColumn)
     else
-      table.insert(aLxpAttr.tTestCase.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
+      table.insert(
+        aLxpAttr.tTestCase.parameter,
+        {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue}
+      )
     end
 
   elseif strCurrentPath=='/MuhkuhTest/Testcase/Connection' then
@@ -204,7 +222,10 @@ function TestDescription.__parseTests_EndElement(tParser)
       aLxpAttr.tResult = nil
       aLxpAttr.tLog.error('Error in line %d, col %d: missing connection for parameter.', iPosLine, iPosColumn)
     else
-      table.insert(aLxpAttr.tTestCase.parameter, {name=aLxpAttr.strParameterName, connection=aLxpAttr.strParameterConnection})
+      table.insert(
+        aLxpAttr.tTestCase.parameter,
+        {name=aLxpAttr.strParameterName, connection=aLxpAttr.strParameterConnection}
+      )
     end
 
   elseif strCurrentPath=='/MuhkuhTest/System/Parameter' then
@@ -237,7 +258,10 @@ function TestDescription.__parseTests_EndElement(tParser)
       aLxpAttr.tResult = nil
       aLxpAttr.tLog.error('Error in line %d, col %d: missing value for parameter.', iPosLine, iPosColumn)
     else
-      table.insert(aLxpAttr.tConfiguration.parameter, {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue})
+      table.insert(
+        aLxpAttr.tConfiguration.parameter,
+        {name=aLxpAttr.strParameterName, value=aLxpAttr.strParameterValue}
+      )
     end
   end
 
@@ -335,7 +359,14 @@ function TestDescription:__parse_tests(strTestsFile)
     end
 
     if tParseResult==nil then
-      tLog.error('Failed to parse the test configuration "%s": %s in line %d, column %d, position %d.', strTestsFile, strMsg, uiLine, uiCol, uiPos)
+      tLog.error(
+        'Failed to parse the test configuration "%s": %s in line %d, column %d, position %d.',
+        strTestsFile,
+        strMsg,
+        uiLine,
+        uiCol,
+        uiPos
+      )
     elseif aLxpAttr.tResult~=true then
       tLog.error('Failed to parse the test configuration.')
     else
@@ -357,7 +388,7 @@ end
 
 
 function TestDescription:parse(strTestsFile)
-  local tResult = true
+  local tResult
   local pl = self.pl
   local tLog = self.tLog
 
