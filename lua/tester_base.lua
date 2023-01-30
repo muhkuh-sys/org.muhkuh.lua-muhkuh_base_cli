@@ -313,9 +313,11 @@ function TesterBase:asciiArmor(strData)
   -- Filter the input data with GZIP and then BASE64.
   tArchive:add_filter_gzip()
   tArchive:add_filter_b64encode()
+
   -- Provide a buffer which is large enough for the compressed data.
-  -- NOTE: 2 * the size of the input data is way to much.
-  tArchive:open_memory(string.len(strData)*2)
+  -- NOTE: 64 bytes of the overhead like the beginning "begin-base64 644 -" and the end "===="
+  --       and 2 * "size of data" of the base64 encoded data
+  tArchive:open_memory(64 + string.len(strData)*2)
 
   -- Now create a new archive entry - even if we do not have a real archive here.
   -- It is necessary to set the filetype of the entry to "regular file", or no
