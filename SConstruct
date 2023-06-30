@@ -45,35 +45,6 @@ aGroup = strGroup.split('.')
 strModulePath = 'targets/jonchki/repository/%s/%s/%s' % ('/'.join(aGroup), strModule, PROJECT_VERSION)
 
 
-# Set the name of the LUA5.1 artifact.
-strArtifact51 = 'lua5.1-muhkuh_base_cli'
-
-tArcList51 = atEnv.DEFAULT.ArchiveList('zip')
-
-tArcList51.AddFiles('',
-                   'installer/jonchki/lua5.1/install.lua')
-
-tArcList51.AddFiles('lua/',
-                   'lua/parameter_instances.lua',
-                   'lua/parameter.lua',
-                   'lua/parameter_multi_choice.lua',
-                   'lua/parameter_single_choice.lua',
-                   'lua/parameter_uint16.lua',
-                   'lua/parameter_uint32.lua',
-                   'lua/parameter_uint8.lua',
-                   'lua/test_class.lua',
-                   'lua/test_description.lua',
-                   'lua/tester_base.lua',
-                   'lua/tester_cli.lua',
-                   'lua/tester_webgui.lua')
-
-tArtifact51 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact51, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList51)
-tArtifact51Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact51[0].get_path(), tArtifact51[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
-tConfiguration51 = atEnv.DEFAULT.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/%s.xml' % strModule)
-tConfiguration51Hash = atEnv.DEFAULT.Hash('%s.hash' % tConfiguration51[0].get_path(), tConfiguration51[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
-tPom51 = atEnv.DEFAULT.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact51, PROJECT_VERSION)), 'installer/jonchki/lua5.1/pom.xml')
-
-
 # Set the name of the LUA5.4 artifact.
 strArtifact54 = 'lua5.4-muhkuh_base_cli'
 
