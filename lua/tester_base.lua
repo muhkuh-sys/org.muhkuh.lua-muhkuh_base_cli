@@ -12,6 +12,7 @@ function TesterBase:_init()
 
   self.tSocket = nil
   self.m_atSystemParameter = nil
+  self.m_tDataProvider = nil
 end
 
 
@@ -351,6 +352,25 @@ function TesterBase:updateSystemParameter(strKey, strValue)
     tLog.debug('Set the system parameter [%s]="%s".', strKey, strValue)
     atSystemParameter[strKey] = strValue
   end
+end
+
+
+function TesterBase:setDataProviderConfiguration(atCfg, tLogWriter, strLogLevel)
+  local tDataProvider = require 'data_provider_pt'(tLogWriter, strLogLevel)
+  tDataProvider:setConfig(atCfg)
+  self.m_tDataProvider = tDataProvider
+end
+
+
+function TesterBase:getDataItem(strItemName, tLocalConfig)
+  local tResult
+
+  local tDataProvider = self.m_tDataProvider
+  if tDataProvider~=nil then
+    tResult = tDataProvider:getData(strItemName, tLocalConfig)
+  end
+
+  return tResult
 end
 
 

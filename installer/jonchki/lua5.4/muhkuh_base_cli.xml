@@ -20,5 +20,6 @@
 		<dependency group="com.github.lunarmodules" module="Penlight" artifact="Penlight" version="1"/>
 		<dependency group="com.github.moteus" module="lua-log" artifact="lua-log" version="0"/>
 		<dependency group="org.muhkuh.lua" module="archive"   artifact="lua5.4-archive"   version="0"/>
+		<dependency group="org.muhkuh.lua" module="data_provider_pt" artifact="data_provider_pt" version="1"/>
 	</dependencies>
 </jonchki-artifact>
