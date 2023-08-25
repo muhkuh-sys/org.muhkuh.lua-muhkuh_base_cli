@@ -282,7 +282,7 @@ function M.mbin_execute(tParentWindow, tPlugin, aAttr, aParameter, fnCallback, u
 	tPlugin:call(aAttr.ulExecAddress, aAttr.ulParameterStartAddress, fnCallback, ulUserData)
 	print("")
 	print("______________________________________________________________________________")
-	
+
 	-- Read the result status.
 	local ulResult = tPlugin:read_data32(aAttr.ulParameterStartAddress)
 	if ulResult==0 then
@@ -296,7 +296,7 @@ function M.mbin_execute(tParentWindow, tPlugin, aAttr, aParameter, fnCallback, u
 			end
 		end
 	end
-	
+
 	return ulResult
 end
 
