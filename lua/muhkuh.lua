@@ -42,7 +42,7 @@ local function load_from_working_folder(strFileName, fFileIsText)
 	end
 
 	-- Load the complete file.
-	hFile = io.open(strPath, strMode)
+	local hFile = io.open(strPath, strMode)
 	if hFile==nil then
 		error("Failed to open file: " .. strPath)
 	end

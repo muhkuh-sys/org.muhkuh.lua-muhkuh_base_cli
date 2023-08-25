@@ -26,7 +26,7 @@ function M.SelectPlugin(strPattern)
 	local iInterfaceIdx
 	local aDetectedInterfaces
 	local tPlugin
-	local strPattern = strPattern or ".*"
+	local strInterface
 
 
 	repeat do

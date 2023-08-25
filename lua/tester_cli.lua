@@ -79,6 +79,7 @@ function M.getCommonPlugin(strPattern)
 
 	-- Is a plugin open?
 	if not m_commonPlugin then
+		local select_plugin = require 'select_plugin'
 		tPlugin = select_plugin.SelectPlugin(strPattern)
 		if tPlugin then
 			-- Connect the plugin.
@@ -148,11 +149,12 @@ function M.mbin_open(strFilename, tPlugin)
 		else
 			error("Unknown chiptyp!")
 		end
-		
+
 		strFilename = string.gsub(strFilename, "${ASIC_TYPE}", strAsic)
 	end
-	
+
 	-- Try to load the binary.
+	local muhkuh = require 'muhkuh'
 	strData, strMsg = muhkuh.load(strFilename)
 	if not strData then
 		error("Failed to load binary '" .. strFilename .. "': " .. strMsg)
@@ -208,6 +210,7 @@ function M.mbin_set_parameter(tPlugin, aAttr, aParameter)
 		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
 
 		for iIdx,tValue in ipairs(aParameter) do
+			local ulValue
 			if type(tValue)=="string" and tValue=="OUTPUT" then
 				-- Initialize output variables with 0.
 				ulValue = 0
