@@ -32,13 +32,13 @@ function M.SelectPlugin(strPattern)
 	repeat do
 		-- Detect all interfaces.
 		aDetectedInterfaces = {}
-		for i,v in ipairs(__MUHKUH_PLUGINS) do
+		for _,v in ipairs(_G.__MUHKUH_PLUGINS) do
 			local iDetected
 			print(string.format("Detecting interfaces with plugin %s", v:GetID()))
 			iDetected = v:DetectInterfaces(aDetectedInterfaces)
 			print(string.format("Found %d interfaces with plugin %s", iDetected, v:GetID()))
 		end
-		print(string.format("Found a total of %d interfaces with %d plugins", #aDetectedInterfaces, #__MUHKUH_PLUGINS))
+		print(string.format("Found a total of %d interfaces with %d plugins", #aDetectedInterfaces, #_G.__MUHKUH_PLUGINS))
 		print("")
 
 		-- Show all detected interfaces.
