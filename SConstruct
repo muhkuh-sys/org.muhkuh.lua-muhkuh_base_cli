@@ -109,3 +109,25 @@ tArtifact53Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact53[0].get_path(), tArt
 tConfiguration53 = atEnv.DEFAULT.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact53, PROJECT_VERSION)), 'installer/jonchki/lua5.3/%s.xml' % strModule)
 tConfiguration53Hash = atEnv.DEFAULT.Hash('%s.hash' % tConfiguration53[0].get_path(), tConfiguration53[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
 tArtifact53Pom = atEnv.DEFAULT.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact53, PROJECT_VERSION)), 'installer/jonchki/lua5.3/pom.xml')
+
+
+# Set the name of the LUA5.4 artifact.
+strArtifact54 = 'lua5.4-muhkuh_base_cli'
+
+tArcList54 = atEnv.DEFAULT.ArchiveList('zip')
+
+tArcList54.AddFiles('',
+                   'installer/jonchki/lua5.4/install.lua')
+
+tArcList54.AddFiles('lua/',
+                   'lua/muhkuh.lua',
+                   'lua/select_plugin_cli.lua',
+                   'lua/serialnr.lua',
+                   'lua/tester_cli.lua',
+                   'lua/utils.lua')
+
+tArtifact54 = atEnv.DEFAULT.Archive(os.path.join(strModulePath, '%s-%s.zip' % (strArtifact54, PROJECT_VERSION)), None, ARCHIVE_CONTENTS = tArcList54)
+tArtifact54Hash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact54[0].get_path(), tArtifact54[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
+tConfiguration54 = atEnv.DEFAULT.Version(os.path.join(strModulePath, '%s-%s.xml' % (strArtifact54, PROJECT_VERSION)), 'installer/jonchki/lua5.4/%s.xml' % strModule)
+tConfiguration54Hash = atEnv.DEFAULT.Hash('%s.hash' % tConfiguration54[0].get_path(), tConfiguration54[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
+tArtifact54Pom = atEnv.DEFAULT.ArtifactVersion(os.path.join(strModulePath, '%s-%s.pom' % (strArtifact54, PROJECT_VERSION)), 'installer/jonchki/lua5.4/pom.xml')
