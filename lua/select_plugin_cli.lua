@@ -44,7 +44,14 @@ function M.SelectPlugin(strPattern)
 		-- Show all detected interfaces.
 		print("Please select the interface:")
 		for i,v in ipairs(aDetectedInterfaces) do
-			print(string.format("%d: %s (%s) Used: %s, Valid: %s", i, v:GetName(), v:GetTyp(), tostring(v:IsUsed()), tostring(v:IsValid())))
+			print(string.format(
+				"%d: %s (%s) Used: %s, Valid: %s",
+				i,
+				v:GetName(),
+				v:GetTyp(),
+				tostring(v:IsUsed()),
+				tostring(v:IsValid())
+			))
 		end
 		print("R: rescan")
 		print("C: cancel")
@@ -58,7 +65,11 @@ function M.SelectPlugin(strPattern)
 		--  1) the user requested a rescan ("r")
 		--  2) the user canceled the selection ("c")
 		--  3) the input is a number and it is an index to an entry in aDetectedInterfaces
-		end until strInterface=="r" or strInterface=="c" or (iInterfaceIdx~=nil and iInterfaceIdx>0 and iInterfaceIdx<=#aDetectedInterfaces)
+		end until(
+			strInterface=="r" or
+			strInterface=="c" or
+			(iInterfaceIdx~=nil and iInterfaceIdx>0 and iInterfaceIdx<=#aDetectedInterfaces)
+		)
 	-- Scan again if the user requested it.
 	end until strInterface~="r"
 

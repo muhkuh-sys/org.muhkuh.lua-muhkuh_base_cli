@@ -127,12 +127,20 @@ function M.mbin_open(strFilename, tPlugin)
 		-- Get the chip type.
 		local tAsicTyp = tPlugin:GetChiptyp()
 		local strAsic
-		
-		
+
+
 		-- Get the binary for the ASIC.
-		if tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX4000_RELAXED or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX4000_FULL or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NET4100_SMALL then
+		local romloader = require 'romloader'
+		if(
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX4000_RELAXED or
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX4000_FULL or
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NET4100_SMALL
+		) then
 			strAsic = "4000"
-		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX100 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX500 then
+		elseif(
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX100 or
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX500
+		) then
 			strAsic = "500"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX90_MPW then
 			strAsic = "90_mpw"
@@ -140,7 +148,10 @@ function M.mbin_open(strFilename, tPlugin)
 			strAsic = "90"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX90B then
 			strAsic = "90b"
-		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56 or tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56B then
+		elseif(
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56 or
+			tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX56B
+		) then
 			strAsic = "56"
 		elseif tAsicTyp==romloader.ROMLOADER_CHIPTYP_NETX50 then
 			strAsic = "50"
@@ -169,10 +180,30 @@ function M.mbin_open(strFilename, tPlugin)
 
 			aAttr.ulHeaderVersionMaj = string.byte(strData,5) + string.byte(strData,6)*0x00000100
 			aAttr.ulHeaderVersionMin = string.byte(strData,7) + string.byte(strData,8)*0x00000100
-			aAttr.ulLoadAddress = string.byte(strData,9) + string.byte(strData,10)*0x00000100 + string.byte(strData,11)*0x00010000 + string.byte(strData,12)*0x01000000
-			aAttr.ulExecAddress = string.byte(strData,13) + string.byte(strData,14)*0x00000100 + string.byte(strData,15)*0x00010000 + string.byte(strData,16)*0x01000000
-			aAttr.ulParameterStartAddress = string.byte(strData,17) + string.byte(strData,18)*0x00000100 + string.byte(strData,19)*0x00010000 + string.byte(strData,20)*0x01000000
-			aAttr.ulParameterEndAddress = string.byte(strData,21) + string.byte(strData,22)*0x00000100 + string.byte(strData,23)*0x00010000 + string.byte(strData,24)*0x01000000
+			aAttr.ulLoadAddress = (
+				string.byte(strData,9) +
+				string.byte(strData,10)*0x00000100 +
+				string.byte(strData,11)*0x00010000 +
+				string.byte(strData,12)*0x01000000
+			)
+			aAttr.ulExecAddress = (
+				string.byte(strData,13) +
+				string.byte(strData,14)*0x00000100 +
+				string.byte(strData,15)*0x00010000 +
+				string.byte(strData,16)*0x01000000
+			)
+			aAttr.ulParameterStartAddress = (
+				string.byte(strData,17) +
+				string.byte(strData,18)*0x00000100 +
+				string.byte(strData,19)*0x00010000 +
+				string.byte(strData,20)*0x01000000
+			)
+			aAttr.ulParameterEndAddress = (
+				string.byte(strData,21) +
+				string.byte(strData,22)*0x00000100 +
+				string.byte(strData,23)*0x00010000 +
+				string.byte(strData,24)*0x01000000
+			)
 
 			aAttr.strBinary = strData
 		end
@@ -207,7 +238,8 @@ function M.mbin_set_parameter(tPlugin, aAttr, aParameter)
 	tPlugin:write_data32(aAttr.ulParameterStartAddress+0x08, 0x00000000)                          -- Reserved
 
 	if type(aParameter)=="table" then
-		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
+		-- Address of test parameters.
+		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)
 
 		for iIdx,tValue in ipairs(aParameter) do
 			local ulValue
@@ -219,14 +251,18 @@ function M.mbin_set_parameter(tPlugin, aAttr, aParameter)
 				if ulValue==nil then
 					error(string.format("The parameter %s is no valid number.", tostring(tValue)))
 				elseif ulValue<0 or ulValue>0xffffffff then
-					error(string.format("The parameter %s exceeds the range of an unsigned 32bit integer number.", tostring(tValue)))
+					error(string.format(
+					  "The parameter %s exceeds the range of an unsigned 32bit integer number.",
+					  tostring(tValue)
+					))
 				end
 			end
 			tPlugin:write_data32(aAttr.ulParameterStartAddress+0x0c+((iIdx-1)*4), ulValue)
 		end
 	elseif type(aParameter)=='string' then
-		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)  -- Address of test parameters.
-		stdWrite(tParentWindow, tPlugin, aAttr.ulParameterStartAddress+0x0c, aParameter)
+		-- Address of test parameters.
+		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aAttr.ulParameterStartAddress+0x0c)
+		M.stdWrite(nil, tPlugin, aAttr.ulParameterStartAddress+0x0c, aParameter)
 	else
 		-- One single parameter.
 		tPlugin:write_data32(aAttr.ulParameterStartAddress+0x04, aParameter)
