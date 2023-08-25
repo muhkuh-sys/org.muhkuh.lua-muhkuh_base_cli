@@ -18,7 +18,7 @@
 -- 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.            <br/>
 -----------------------------------------------------------------------------
 
-module("muhkuh", package.seeall)
+local M = {}
 
 
 local function load_from_working_folder(strFileName, fFileIsText)
@@ -53,16 +53,18 @@ local function load_from_working_folder(strFileName, fFileIsText)
 end
 
 
-function include(strFileName)
+function M.include(strFileName)
 	-- Get the file data as text.
 	local strData = load_from_working_folder(strFileName, true)
 	assert(loadstring(strData))()
 end
 
 
-function load(strFileName)
+function M.load(strFileName)
 	-- Get the file data as binary.
 	local strData = load_from_working_folder(strFileName, false)
 	return strData
 end
 
+
+return M

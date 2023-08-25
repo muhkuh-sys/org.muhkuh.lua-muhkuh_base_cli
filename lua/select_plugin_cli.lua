@@ -18,10 +18,11 @@
 --   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             --
 -----------------------------------------------------------------------------
 
-module("select_plugin", package.seeall)
+local M = {}
 
 
-function SelectPlugin(strPattern)
+function M.SelectPlugin(strPattern)
+	strPattern = strPattern or ".*"
 	local iInterfaceIdx
 	local aDetectedInterfaces
 	local tPlugin
@@ -70,3 +71,6 @@ function SelectPlugin(strPattern)
 
 	return tPlugin
 end
+
+
+return M

@@ -1,9 +1,5 @@
 
-module("tester", package.seeall)
-
-require("muhkuh")
-require("select_plugin")
-
+local M = {}
 
 ------------------------------
 -- Globals for this module.
@@ -14,8 +10,7 @@ local m_commonPlugin = nil
 
 
 
-function hexdump(strData, uiBytesPerRow)
-	local uiCnt
+function M.hexdump(strData, uiBytesPerRow)
 	local uiByteCnt
 	local aDump
 
@@ -42,12 +37,12 @@ function hexdump(strData, uiBytesPerRow)
 end
 
 
-function callback_progress(a,b)
+function M.callback_progress(a,b)
 	print(string.format("%d%% (%d/%d)", a*100/b, a, b))
 	return true
 end
 
-function callback(a,b)
+function M.callback(a,b)
 --	print(string.format("[netX %d] %s", b, a))
 	io.write(a)
 	return true
@@ -55,30 +50,30 @@ end
 
 
 
-function stdRead(tParentWindow, tPlugin, ulAddress, sizData)
-	return tPlugin:read_image(ulAddress, sizData, callback_progress, sizData)
+function M.stdRead(tParentWindow, tPlugin, ulAddress, sizData)
+	return tPlugin:read_image(ulAddress, sizData, M.callback_progress, sizData)
 end
 
-function stdWrite(tParentWindow, tPlugin, ulAddress, strData)
-	tPlugin:write_image(ulAddress, strData, callback_progress, string.len(strData))
+function M.stdWrite(tParentWindow, tPlugin, ulAddress, strData)
+	tPlugin:write_image(ulAddress, strData, M.callback_progress, string.len(strData))
 end
 
-function stdCall(tParentWindow, tPlugin, ulAddress, ulParameter)
+function M.stdCall(tParentWindow, tPlugin, ulAddress, ulParameter)
 	print("__/Output/____________________________________________________________________")
-	tPlugin:call(ulAddress, ulParameter, callback, 0)
+	tPlugin:call(ulAddress, ulParameter, M.callback, 0)
 	print("")
 	print("______________________________________________________________________________")
 end
 
 
 
-function setCommonPlugin(tPlugin)
+function M.setCommonPlugin(tPlugin)
 	m_commonPlugin = tPlugin
 end
 
 
 
-function getCommonPlugin(strPattern)
+function M.getCommonPlugin(strPattern)
 	local tPlugin
 
 
@@ -97,7 +92,7 @@ function getCommonPlugin(strPattern)
 end
 
 
-function closeCommonPlugin()
+function M.closeCommonPlugin()
 	if m_commonPlugin then
 		if m_commonPlugin:IsConnected()==true then
 			-- Disconnect the plugin.
@@ -115,12 +110,12 @@ end
 
 
 
-function getPanel()
+function M.getPanel()
 	return 0
 end
 
 
-function mbin_open(strFilename, tPlugin)
+function M.mbin_open(strFilename, tPlugin)
 	local strData
 	local strMsg
 	local aAttr
@@ -185,7 +180,7 @@ function mbin_open(strFilename, tPlugin)
 end
 
 
-function mbin_debug(aAttr)
+function M.mbin_debug(aAttr)
 	print(string.format("file '%s':", aAttr.strFilename))
 	print(string.format("\theader version: %d.%d", aAttr.ulHeaderVersionMaj, aAttr.ulHeaderVersionMin))
 	print(string.format("\tload address:   0x%08x", aAttr.ulLoadAddress))
@@ -195,12 +190,12 @@ function mbin_debug(aAttr)
 end
 
 
-function mbin_write(tParentWindow, tPlugin, aAttr)
-	stdWrite(tParentWindow, tPlugin, aAttr.ulLoadAddress, aAttr.strBinary)
+function M.mbin_write(tParentWindow, tPlugin, aAttr)
+	M.stdWrite(tParentWindow, tPlugin, aAttr.ulLoadAddress, aAttr.strBinary)
 end
 
 
-function mbin_set_parameter(tPlugin, aAttr, aParameter)
+function M.mbin_set_parameter(tPlugin, aAttr, aParameter)
 	if not aParameter then
 		aParameter = 0
 	end
@@ -236,9 +231,9 @@ function mbin_set_parameter(tPlugin, aAttr, aParameter)
 end
 
 
-function mbin_execute(tParentWindow, tPlugin, aAttr, aParameter, fnCallback, ulUserData)
+function M.mbin_execute(tParentWindow, tPlugin, aAttr, aParameter, fnCallback, ulUserData)
 	if not fnCallback then
-		fnCallback = callback
+		fnCallback = M.callback
 	end
 	if not ulUserData then
 		ulUserData = 0
@@ -267,12 +262,14 @@ function mbin_execute(tParentWindow, tPlugin, aAttr, aParameter, fnCallback, ulU
 end
 
 
-function mbin_simple_run(tParentWindow, tPlugin, strFilename, aParameter)
+function M.mbin_simple_run(tParentWindow, tPlugin, strFilename, aParameter)
 	local aAttr
-	aAttr = mbin_open(strFilename, tPlugin)
-	mbin_debug(aAttr)
-	mbin_write(tParentWindow, tPlugin, aAttr)
-	mbin_set_parameter(tPlugin, aAttr, aParameter)
-	return mbin_execute(tParentWindow, tPlugin, aAttr, aParameter)
+	aAttr = M.mbin_open(strFilename, tPlugin)
+	M.mbin_debug(aAttr)
+	M.mbin_write(tParentWindow, tPlugin, aAttr)
+	M.mbin_set_parameter(tPlugin, aAttr, aParameter)
+	return M.mbin_execute(tParentWindow, tPlugin, aAttr, aParameter)
 end
 
+
+return M
