@@ -363,14 +363,14 @@ end
 
 
 function TesterBase:getDataItem(strItemName, tLocalConfig)
-  local tResult
+  local tResult, tMergedParameter
 
   local tDataProvider = self.m_tDataProvider
   if tDataProvider~=nil then
-    tResult = tDataProvider:getData(strItemName, tLocalConfig)
+    tResult, tMergedParameter = tDataProvider:getData(strItemName, tLocalConfig)
   end
 
-  return tResult
+  return tResult, tMergedParameter
 end
 
 
