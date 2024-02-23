@@ -292,12 +292,20 @@ end
 
 
 function TesterBase:sendLogEvent(strEventId, atAttributes)
+  local tData = { id=strEventId, attr=atAttributes }
+  local strData = self.json.encode(tData)
+
   local tSocket = self.tSocket
   if tSocket~=nil then
-    local tData = { id=strEventId, attr=atAttributes }
-    local strData = self.json.encode(tData)
     local strMsg = string.format('LEV%s', strData)
     tSocket:send(strMsg)
+  else
+    local tLog = self.tLog
+    if tLog~=nil then
+      tLog.info('Log event: %s', strData)
+    else
+      print(string.format('Log event: %s', strData))
+    end
   end
 end
 
